@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Joyol.uz — Edit Profile</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --red: #D42B2B;
+  --red-dark: #A81E1E;
+  --red-glow: rgba(212,43,43,0.2);
+  --black: #0A0A0A;
+  --white: #FFFFFF;
+  --cream: #FAFAF8;
+  --gray: #F2F2F0;
+  --gray-mid: #DEDEDE;
+  --gray-text: #7A7A7A;
+  --green: #16A34A;
+  --green-bg: #F0FDF4;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--cream); color: var(--black); min-height: 100vh; }
+
+/* NAVBAR */
+.navbar-wrap { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 1000; width: calc(100% - 80px); max-width: 1200px; }
+nav { background: rgba(10,10,10,0.85); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); border-radius: 50px; padding: 12px 16px 12px 24px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 8px 40px rgba(0,0,0,0.3); }
+.nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 700; color: white; text-decoration: none; }
+.nav-logo span { color: var(--red); }
+.nav-right { display: flex; align-items: center; gap: 10px; }
+.nav-link { color: rgba(255,255,255,0.6); font-size: 14px; font-weight: 500; text-decoration: none; padding: 8px 16px; border-radius: 30px; transition: all 0.2s; }
+.nav-link:hover { color: white; background: rgba(255,255,255,0.1); }
+.nav-logout { color: rgba(255,255,255,0.5); font-size: 13px; text-decoration: none; padding: 8px 18px; border: 1px solid rgba(255,255,255,0.15); border-radius: 20px; transition: all 0.2s; }
+.nav-logout:hover { color: white; border-color: rgba(255,255,255,0.4); }
+
+/* HEADER */
+.page-header { background: var(--black); padding: 140px 80px 60px; position: relative; overflow: hidden; }
+.page-header::before { content: ''; position: absolute; top: -100px; right: -100px; width: 500px; height: 500px; border-radius: 50%; background: radial-gradient(circle, rgba(212,43,43,0.08) 0%, transparent 70%); }
+.header-inner { max-width: 700px; margin: 0 auto; }
+.header-tag { font-size: 11px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: var(--red); margin-bottom: 12px; }
+.header-title { font-family: 'Cormorant Garamond', serif; font-size: 52px; font-weight: 700; color: white; line-height: 1.05; margin-bottom: 12px; }
+.header-title em { font-style: italic; color: rgba(255,255,255,0.4); }
+.header-sub { font-size: 15px; color: rgba(255,255,255,0.4); }
+
+/* BODY */
+.page-body { max-width: 700px; margin: 0 auto; padding: 48px 80px 80px; }
+
+/* AVATAR SECTION */
+.avatar-section { display: flex; align-items: center; gap: 24px; background: white; border-radius: 20px; border: 1px solid var(--gray-mid); padding: 28px 32px; margin-bottom: 24px; }
+.big-avatar { width: 80px; height: 80px; border-radius: 50%; background: var(--red); display: flex; align-items: center; justify-content: center; font-family: 'Cormorant Garamond', serif; font-size: 36px; font-weight: 700; color: white; flex-shrink: 0; box-shadow: 0 8px 24px var(--red-glow); }
+.avatar-info h3 { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 700; margin-bottom: 4px; }
+.avatar-info p { font-size: 13px; color: var(--gray-text); }
+
+/* FORM CARD */
+.form-card { background: white; border-radius: 20px; border: 1px solid var(--gray-mid); padding: 36px 32px; margin-bottom: 24px; }
+.form-card h2 { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 700; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid var(--gray); }
+
+/* FIELDS */
+.field { margin-bottom: 20px; }
+.field label { display: block; font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--gray-text); margin-bottom: 8px; }
+.field input { width: 100%; padding: 14px 18px; border: 1.5px solid var(--gray-mid); border-radius: 12px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 14px; color: var(--black); outline: none; transition: all 0.25s; background: var(--cream); }
+.field input:focus { border-color: var(--red); background: white; box-shadow: 0 0 0 4px rgba(212,43,43,0.06); }
+.field input::placeholder { color: #C0BDB8; }
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.field-hint { font-size: 11px; color: var(--gray-text); margin-top: 6px; }
+
+/* DIVIDER */
+.form-divider { height: 1px; background: var(--gray); margin: 28px 0; }
+
+/* BUTTONS */
+.form-actions { display: flex; gap: 12px; justify-content: flex-end; }
+.btn-save { padding: 14px 32px; background: var(--red); color: white; border: none; border-radius: 12px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.25s; box-shadow: 0 4px 16px var(--red-glow); }
+.btn-save:hover { background: var(--red-dark); transform: translateY(-2px); }
+.btn-back { padding: 14px 24px; background: white; color: var(--black); border: 1.5px solid var(--gray-mid); border-radius: 12px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; text-decoration: none; display: inline-block; }
+.btn-back:hover { border-color: var(--black); }
+
+/* FLASH MESSAGES */
+.flash { padding: 14px 18px; border-radius: 12px; margin-bottom: 20px; font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 10px; animation: flashIn 0.3s ease; }
+@keyframes flashIn { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
+.flash-success { background: var(--green-bg); color: var(--green); border: 1px solid #BBF7D0; }
+.flash-error { background: #FEF2F2; color: #DC2626; border: 1px solid #FECACA; }
+
+/* DANGER ZONE */
+.danger-card { background: white; border-radius: 20px; border: 1.5px solid #FECACA; padding: 28px 32px; }
+.danger-card h2 { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 700; color: #DC2626; margin-bottom: 8px; }
+.danger-card p { font-size: 13px; color: var(--gray-text); line-height: 1.7; margin-bottom: 20px; }
+.btn-danger { padding: 12px 24px; background: white; color: #DC2626; border: 1.5px solid #FECACA; border-radius: 10px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+.btn-danger:hover { background: #FEF2F2; border-color: #DC2626; }
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar-wrap">
+  <nav>
+    <a class="nav-logo" href="/">Joyol<span>.uz</span></a>
+    <div class="nav-right">
+      <a href="/" class="nav-link">Home</a>
+      <a href="/dashboard" class="nav-link">Dashboard</a>
+      <a href="/logout" class="nav-logout">Logout</a>
+    </div>
+  </nav>
+</div>
+
+<!-- HEADER -->
+<div class="page-header">
+  <div class="header-inner">
+    <div class="header-tag">Account Settings</div>
+    <div class="header-title">Edit your<br><em>profile</em></div>
+    <div class="header-sub">Update your personal information and password</div>
+  </div>
+</div>
+
+<!-- BODY -->
+<div class="page-body">
+
+  <!-- FLASH MESSAGES -->
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+        <div class="flash flash-{{ category }}">
+          {% if category == 'success' %}{% else %}{% endif %}
+          {{ message }}
+        </div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+
+  <!-- AVATAR -->
+  <div class="avatar-section">
+    <div class="big-avatar">{{ current_user.name[0] }}</div>
+    <div class="avatar-info">
+      <h3>{{ current_user.name }}</h3>
+      <p>{{ current_user.email }}</p>
+    </div>
+  </div>
+
+  <!-- PERSONAL INFO -->
+  <div class="form-card">
+    <h2>Personal Information</h2>
+    <form method="POST" action="/profile/update">
+      <input type="hidden" name="form_type" value="info">
+      <div class="field-row">
+        <div class="field">
+          <label>Full Name</label>
+          <input type="text" name="name" value="{{ current_user.name }}" placeholder="Your full name" required>
+        </div>
+        <div class="field">
+          <label>Phone Number</label>
+          <input type="tel" name="phone" value="{{ current_user.phone or '' }}" placeholder="+998 90 123 45 67">
+        </div>
+      </div>
+      <div class="field">
+        <label>Email Address</label>
+        <input type="email" name="email" value="{{ current_user.email }}" placeholder="your@email.com" required>
+        <div class="field-hint">Changing your email will require you to sign in again</div>
+      </div>
+      <div class="form-actions">
+        <a href="/dashboard" class="btn-back">← Back</a>
+        <button type="submit" class="btn-save">Save Changes</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- CHANGE PASSWORD -->
+  <div class="form-card">
+    <h2>Change Password</h2>
+    <form method="POST" action="/profile/update">
+      <input type="hidden" name="form_type" value="password">
+      <div class="field">
+        <label>Current Password</label>
+        <input type="password" name="current_password" placeholder="••••••••">
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>New Password</label>
+          <input type="password" name="new_password" placeholder="At least 8 characters">
+        </div>
+        <div class="field">
+          <label>Confirm New Password</label>
+          <input type="password" name="confirm_password" placeholder="Repeat new password">
+        </div>
+      </div>
+      <div class="form-actions">
+        <button type="submit" class="btn-save">Update Password</button>
+      </div>
+    </form>
+  </div>
+
+</div>
+
+</body>
+</html>

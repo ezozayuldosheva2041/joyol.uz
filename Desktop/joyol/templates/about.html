@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Joyol.uz — About Us</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --red: #C8272B; --red-dark: #A81E1E; --red-dim: rgba(200,39,43,0.1); --red-glow: rgba(200,39,43,0.22);
+  --black: #0D0D0D; --bg: #F5F4F1; --card: #fff;
+  --border: #E8E6E1; --text: #1A1A1A; --muted: #8A8782; --gold: #B8965A;
+  --green: #1A7A4A; --green-bg: #EDFAF3;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); }
+
+/* NAVBAR */
+.navbar-wrap { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 1000; width: calc(100% - 64px); max-width: 1200px; }
+nav { background: rgba(13,13,13,0.88); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.09); border-radius: 50px; padding: 11px 14px 11px 24px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 8px 40px rgba(0,0,0,0.28); }
+.nav-logo { font-family: 'Playfair Display', serif; font-size: 21px; font-weight: 700; color: white; text-decoration: none; }
+.nav-logo span { color: var(--red); }
+.nav-links { display: flex; align-items: center; gap: 4px; }
+.nav-link { color: rgba(255,255,255,0.55); font-size: 13.5px; font-weight: 500; text-decoration: none; padding: 8px 16px; border-radius: 30px; transition: all 0.2s; }
+.nav-link:hover, .nav-link.active { color: white; background: rgba(255,255,255,0.08); }
+.nav-cta { padding: 9px 20px; background: var(--red); color: white; border: none; border-radius: 30px; font-size: 13px; font-weight: 700; cursor: pointer; text-decoration: none; transition: all 0.2s; }
+.nav-cta:hover { background: var(--red-dark); }
+
+/* HERO */
+.about-hero { background: var(--black); padding: 140px 64px 80px; position: relative; overflow: hidden; text-align: center; }
+.ah-glow1 { position: absolute; top: -100px; left: 50%; transform: translateX(-50%); width: 600px; height: 600px; border-radius: 50%; background: radial-gradient(circle, rgba(200,39,43,0.1) 0%, transparent 70%); pointer-events: none; }
+.ah-inner { position: relative; z-index: 1; max-width: 700px; margin: 0 auto; }
+.ah-tag { font-size: 10px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: var(--red); margin-bottom: 16px; }
+.ah-title { font-family: 'Playfair Display', serif; font-size: 60px; font-weight: 700; color: white; line-height: 1.1; margin-bottom: 20px; }
+.ah-title em { font-style: italic; color: rgba(255,255,255,0.3); }
+.ah-sub { font-size: 16px; color: rgba(255,255,255,0.45); line-height: 1.8; max-width: 520px; margin: 0 auto 40px; }
+.btn-start { padding: 14px 36px; background: var(--red); color: white; border: none; border-radius: 50px; font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 700; text-decoration: none; display: inline-block; box-shadow: 0 6px 24px var(--red-glow); transition: all 0.25s; }
+.btn-start:hover { background: var(--red-dark); transform: translateY(-2px); }
+
+/* STATS */
+.stats-band { background: white; padding: 48px 64px; border-bottom: 1px solid var(--border); }
+.stats-inner { max-width: 900px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; }
+.sband-item { text-align: center; padding: 0 24px; border-right: 1px solid var(--border); }
+.sband-item:last-child { border-right: none; }
+.sband-num { font-family: 'Playfair Display', serif; font-size: 48px; font-weight: 700; color: var(--black); line-height: 1; margin-bottom: 6px; }
+.sband-num span { color: var(--red); }
+.sband-label { font-size: 13px; color: var(--muted); font-weight: 500; }
+
+/* MISSION */
+.mission-section { max-width: 1100px; margin: 0 auto; padding: 80px 64px; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+.ms-tag { font-size: 10px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: var(--red); margin-bottom: 14px; }
+.ms-title { font-family: 'Playfair Display', serif; font-size: 42px; font-weight: 700; line-height: 1.15; margin-bottom: 20px; }
+.ms-title em { font-style: italic; color: rgba(0,0,0,0.25); }
+.ms-text { font-size: 15px; color: var(--muted); line-height: 1.9; margin-bottom: 16px; }
+.ms-img { border-radius: 24px; overflow: hidden; height: 420px; position: relative; }
+.ms-img img { width: 100%; height: 100%; object-fit: cover; }
+.ms-img-overlay { position: absolute; inset: 0; background: linear-gradient(135deg, rgba(200,39,43,0.15) 0%, transparent 60%); }
+
+/* HOW IT WORKS */
+.how-section { background: var(--black); padding: 80px 64px; }
+.how-inner { max-width: 1100px; margin: 0 auto; }
+.section-tag { font-size: 10px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: var(--red); margin-bottom: 12px; text-align: center; }
+.section-title { font-family: 'Playfair Display', serif; font-size: 42px; font-weight: 700; color: white; text-align: center; margin-bottom: 56px; line-height: 1.1; }
+.section-title em { font-style: italic; color: rgba(255,255,255,0.3); }
+.steps-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; }
+.step-card { text-align: center; padding: 32px 24px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; transition: all 0.3s; }
+.step-card:hover { background: rgba(255,255,255,0.07); transform: translateY(-4px); }
+.step-num { width: 52px; height: 52px; border-radius: 50%; background: var(--red); color: white; font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; display: flex; align-items: center; justify-content: center; margin: 0 auto 18px; box-shadow: 0 6px 20px var(--red-glow); }
+.step-icon { font-size: 28px; margin-bottom: 14px; }
+.step-title { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: white; margin-bottom: 10px; }
+.step-desc { font-size: 13px; color: rgba(255,255,255,0.4); line-height: 1.7; }
+
+/* FEATURES */
+.features-section { max-width: 1100px; margin: 0 auto; padding: 80px 64px; }
+.features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 48px; }
+.feat-card { background: white; border: 1px solid var(--border); border-radius: 20px; padding: 32px 28px; transition: all 0.25s; }
+.feat-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.08); border-color: transparent; }
+.feat-icon { font-size: 36px; margin-bottom: 16px; }
+.feat-title { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; margin-bottom: 10px; }
+.feat-desc { font-size: 13.5px; color: var(--muted); line-height: 1.7; }
+
+/* FOUNDER CARD */
+.founder-card { display: grid; grid-template-columns: 260px 1fr; gap: 56px; margin-top: 48px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: 28px; padding: 48px; align-items: start; position: relative; overflow: hidden; }
+.founder-card::before { content: ''; position: absolute; top: -80px; right: -80px; width: 300px; height: 300px; border-radius: 50%; background: radial-gradient(circle, rgba(200,39,43,0.12) 0%, transparent 70%); pointer-events: none; }
+.founder-left { display: flex; flex-direction: column; align-items: center; gap: 16px; }
+.founder-avatar { width: 130px; height: 130px; border-radius: 50%; background: linear-gradient(135deg, var(--red) 0%, #8B1515 100%); display: flex; align-items: center; justify-content: center; font-family: 'Playfair Display', serif; font-size: 52px; font-weight: 700; color: white; box-shadow: 0 12px 40px rgba(200,39,43,0.35); border: 3px solid rgba(200,39,43,0.3); }
+.founder-social-pill { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12); color: rgba(255,255,255,0.5); font-size: 11px; font-weight: 600; letter-spacing: 0.5px; padding: 7px 16px; border-radius: 20px; text-align: center; }
+.founder-tag { font-size: 10px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: var(--red); margin-bottom: 10px; }
+.founder-name { font-family: 'Playfair Display', serif; font-size: 38px; font-weight: 700; color: white; line-height: 1.1; margin-bottom: 6px; }
+.founder-title { font-size: 14px; color: rgba(255,255,255,0.4); font-weight: 500; margin-bottom: 20px; letter-spacing: 0.3px; }
+.founder-bio { font-size: 14px; color: rgba(255,255,255,0.55); line-height: 1.85; margin-bottom: 14px; }
+.founder-skills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
+.skill-tag { padding: 6px 14px; background: rgba(200,39,43,0.12); border: 1px solid rgba(200,39,43,0.25); color: rgba(255,255,255,0.7); font-size: 12px; font-weight: 600; border-radius: 20px; transition: all 0.2s; }
+.skill-tag:hover { background: rgba(200,39,43,0.22); color: white; }
+.team-inner { max-width: 1100px; margin: 0 auto; }
+.team-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 48px; }
+.team-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; padding: 32px; text-align: center; transition: all 0.25s; }
+.team-card:hover { background: rgba(255,255,255,0.07); transform: translateY(-4px); }
+.team-avatar { width: 80px; height: 80px; border-radius: 50%; background: var(--red); margin: 0 auto 16px; display: flex; align-items: center; justify-content: center; font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 700; color: white; box-shadow: 0 8px 24px var(--red-glow); }
+.team-name { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: white; margin-bottom: 4px; }
+.team-role { font-size: 12px; color: var(--red); font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 12px; }
+.team-bio { font-size: 13px; color: rgba(255,255,255,0.4); line-height: 1.7; }
+
+/* CTA */
+.cta-section { padding: 80px 64px; text-align: center; background: var(--bg); }
+.cta-inner { max-width: 600px; margin: 0 auto; }
+.cta-title { font-family: 'Playfair Display', serif; font-size: 48px; font-weight: 700; margin-bottom: 16px; line-height: 1.1; }
+.cta-title em { font-style: italic; color: var(--red); }
+.cta-sub { font-size: 15px; color: var(--muted); line-height: 1.8; margin-bottom: 36px; }
+.cta-btns { display: flex; gap: 14px; justify-content: center; }
+.btn-cta-main { padding: 15px 36px; background: var(--red); color: white; border: none; border-radius: 50px; font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 700; text-decoration: none; display: inline-block; box-shadow: 0 6px 24px var(--red-glow); transition: all 0.25s; }
+.btn-cta-main:hover { background: var(--red-dark); transform: translateY(-2px); }
+.btn-cta-sec { padding: 15px 32px; background: white; color: var(--black); border: 1.5px solid var(--border); border-radius: 50px; font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 600; text-decoration: none; display: inline-block; transition: all 0.25s; }
+.btn-cta-sec:hover { border-color: var(--black); }
+
+/* FOOTER */
+footer { background: var(--black); padding: 48px 64px; }
+.footer-bottom { display: flex; justify-content: space-between; font-size: 13px; color: rgba(255,255,255,0.2); border-top: 1px solid rgba(255,255,255,0.06); padding-top: 24px; }
+.f-logo { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 700; color: white; margin-bottom: 20px; }
+.f-logo span { color: var(--red); }
+
+/* TEAM */
+.team-section { background: var(--black); padding: 80px 64px; }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+.feat-card { animation: fadeUp 0.5s ease backwards; }
+.feat-card:nth-child(1) { animation-delay: 0.05s; }
+.feat-card:nth-child(2) { animation-delay: 0.1s; }
+.feat-card:nth-child(3) { animation-delay: 0.15s; }
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar-wrap">
+  <nav>
+    <a class="nav-logo" href="/">Joyol<span>.uz</span></a>
+    <div class="nav-links">
+      <a href="/" class="nav-link">Home</a>
+      <a href="/restaurants" class="nav-link">Restaurants</a>
+      <a href="/about" class="nav-link active">About</a>
+      {% if current_user.is_authenticated %}
+        <a href="/dashboard" class="nav-cta">My Dashboard</a>
+      {% else %}
+        <a href="/auth" class="nav-cta">Sign In</a>
+      {% endif %}
+    </div>
+  </nav>
+</div>
+
+<!-- HERO -->
+<div class="about-hero">
+  <div class="ah-glow1"></div>
+  <div class="ah-inner">
+    <div class="ah-tag">✦ Our Story</div>
+    <div class="ah-title">Tashkent's <em>favourite</em><br>way to dine</div>
+    <div class="ah-sub">Joyol.uz was built to make finding and booking the perfect restaurant in Tashkent effortless — no phone calls, no waiting, no stress.</div>
+    <a href="/restaurants" class="btn-start">Explore Restaurants →</a>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats-band">
+  <div class="stats-inner">
+    <div class="sband-item">
+      <div class="sband-num">50<span>+</span></div>
+      <div class="sband-label">Partner Restaurants</div>
+    </div>
+    <div class="sband-item">
+      <div class="sband-num">8<span>k+</span></div>
+      <div class="sband-label">Happy Guests</div>
+    </div>
+    <div class="sband-item">
+      <div class="sband-num">4.9<span>★</span></div>
+      <div class="sband-label">Average Rating</div>
+    </div>
+    <div class="sband-item">
+      <div class="sband-num">2<span>yrs</span></div>
+      <div class="sband-label">Serving Tashkent</div>
+    </div>
+  </div>
+</div>
+
+<!-- MISSION -->
+<div class="mission-section">
+  <div>
+    <div class="ms-tag">✦ Our Mission</div>
+    <div class="ms-title">We connect people<br>with <em>great food</em></div>
+    <p class="ms-text">Joyol.uz was founded in 2025 with a simple idea: eating out in Tashkent should be easy, enjoyable, and stress-free. We noticed that despite the city having hundreds of incredible restaurants, finding and booking the right one was still frustratingly difficult.</p>
+    <p class="ms-text">So we built a platform that brings together Tashkent's finest restaurants in one place — with instant reservations, real reviews, and personalised recommendations for every occasion.</p>
+    <p class="ms-text">Whether you're planning a birthday dinner, a business lunch, a romantic date night, or a wedding reception — Joyol.uz helps you find the perfect table in seconds.</p>
+  </div>
+  <div class="ms-img">
+    <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&q=80" alt="Restaurant">
+    <div class="ms-img-overlay"></div>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<div class="how-section">
+  <div class="how-inner">
+    <div class="section-tag">✦ Simple Process</div>
+    <div class="section-title">How <em>Joyol.uz</em> works</div>
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-icon"></div>
+        <div class="step-num">1</div>
+        <div class="step-title">Choose Your Occasion</div>
+        <div class="step-desc">Browse by birthday, wedding, date night, business dinner or private dining.</div>
+      </div>
+      <div class="step-card">
+        <div class="step-icon"></div>
+        <div class="step-num">2</div>
+        <div class="step-title">Pick a Restaurant</div>
+        <div class="step-desc">Browse Tashkent's finest restaurants with real photos, menus and verified reviews.</div>
+      </div>
+      <div class="step-card">
+        <div class="step-icon"></div>
+        <div class="step-num">3</div>
+        <div class="step-title">Reserve Instantly</div>
+        <div class="step-desc">Select your date, time and number of guests. Confirm your reservation in seconds.</div>
+      </div>
+      <div class="step-card">
+        <div class="step-icon"></div>
+        <div class="step-num">4</div>
+        <div class="step-title">Simply Enjoy!</div>
+        <div class="step-desc">Arrive and find your table ready. No waiting, no phone calls, no stress.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<div class="features-section">
+  <div class="section-tag" style="color:var(--red); text-align:center;">✦ Why Choose Us</div>
+  <div class="section-title" style="color:var(--black); font-family:'Playfair Display',serif; font-size:42px; font-weight:700; text-align:center; margin-bottom:0;">Everything you need<br><em style="color:rgba(0,0,0,0.25);">in one place</em></div>
+  <div class="features-grid">
+    <div class="feat-card">
+      <div class="feat-icon">⚡</div>
+      <div class="feat-title">Instant Reservations</div>
+      <div class="feat-desc">Book your table in under 60 seconds. No phone calls, no waiting for confirmation emails. Your reservation is confirmed immediately.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon"></div>
+      <div class="feat-title">Free Cancellation</div>
+      <div class="feat-desc">Plans change — we understand. Cancel your reservation within 30 minutes of booking at no charge, no questions asked.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon"></div>
+      <div class="feat-title">Verified Reviews</div>
+      <div class="feat-desc">Every review on Joyol.uz is from a verified guest who actually dined at the restaurant. Real experiences, real ratings.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon"></div>
+      <div class="feat-title">Occasion Planning</div>
+      <div class="feat-desc">Find restaurants perfectly suited for your occasion — from intimate birthday dinners to grand wedding receptions.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon"></div>
+      <div class="feat-title">Safe & Secure</div>
+      <div class="feat-desc">No credit card required to make a reservation. Your personal data is protected and never shared with third parties.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon"></div>
+      <div class="feat-title">Works Everywhere</div>
+      <div class="feat-desc">Access Joyol.uz from any device — phone, tablet or desktop. Manage your reservations on the go.</div>
+    </div>
+  </div>
+</div>
+
+<!-- TEAM -->
+<div class="team-section">
+  <div class="team-inner">
+    <div class="section-tag">✦ The Creator</div>
+    <div class="section-title">Built with passion<br><em>by one person</em></div>
+
+    <!-- FOUNDER SPOTLIGHT -->
+    <div class="founder-card">
+      <div class="founder-left">
+        <div class="founder-avatar">E</div>
+        <div class="founder-socials">
+          <div class="founder-social-pill">BIS Student · 2026</div>
+        </div>
+      </div>
+      <div class="founder-right">
+        <div class="founder-tag">✦ Founder & Creator</div>
+        <div class="founder-name">E'zoza Yuldosheva</div>
+        <p class="founder-bio">Joyol.uz is a passion project born from a simple frustration — booking a great restaurant in Tashkent was harder than it needed to be. I designed and built this platform from scratch as part of my Business Information Systems dissertation, combining my love for technology, design and Tashkent's incredible food scene.</p>
+        <p class="founder-bio">Every pixel, every line of code, every user experience decision — all crafted by hand, with the goal of making dining out in Tashkent effortless and enjoyable for everyone.</p>
+        <div class="founder-skills">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="cta-section">
+  <div class="cta-inner">
+    <div class="cta-title">Ready to find your<br><em>perfect table?</em></div>
+    <div class="cta-sub">Join thousands of happy diners who discover and book Tashkent's finest restaurants every day on Joyol.uz.</div>
+    <div class="cta-btns">
+      <a href="/restaurants" class="btn-cta-main">Browse Restaurants</a>
+      <a href="/auth" class="btn-cta-sec">Create Account →</a>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="f-logo">Joyol<span>.uz</span></div>
+  <div class="footer-bottom">
+    <span>© 2026 Joyol.uz — All rights reserved</span>
+  </div>
+</footer>
+
+</body>
+</html>

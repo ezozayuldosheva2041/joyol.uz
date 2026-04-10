@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ owned_restaurant.name if owned_restaurant else "Admin" }} — Restaurant Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --red: #C8272B; --red-dark: #A81E1E; --red-dim: rgba(200,39,43,0.1);
+  --black: #0D0D0D; --bg: #F5F4F1; --white: #fff;
+  --border: #E8E6E1; --text: #1A1A1A; --muted: #8A8782;
+  --green: #16A34A; --green-bg: #F0FDF4; --green-border: #BBF7D0;
+  --yellow: #D97706; --yellow-bg: #FFFBEB;
+  --sidebar-w: 260px;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); display: flex; min-height: 100vh; }
+
+/* SIDEBAR */
+.sidebar { width: var(--sidebar-w); background: var(--black); min-height: 100vh; position: fixed; top: 0; left: 0; display: flex; flex-direction: column; z-index: 100; }
+.sb-logo { padding: 28px 24px 24px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+.sb-logo a { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 700; color: white; text-decoration: none; display: flex; align-items: center; gap: 9px; }
+.sb-logo a span { color: var(--red); }
+.sb-tag { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-top: 4px; }
+.sb-restname { font-size: 12px; color: rgba(255,255,255,0.55); margin-top: 6px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.sb-nav { padding: 20px 14px; flex: 1; }
+.sb-section { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.25); padding: 0 10px; margin: 20px 0 8px; }
+.sb-link { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 10px; color: rgba(255,255,255,0.55); font-size: 13.5px; font-weight: 500; text-decoration: none; transition: all 0.2s; cursor: pointer; border: none; background: none; width: 100%; font-family: 'Plus Jakarta Sans', sans-serif; }
+.sb-link:hover { background: rgba(255,255,255,0.07); color: white; }
+.sb-link.active { background: var(--red); color: white; }
+.sb-link .icon { font-size: 16px; width: 20px; text-align: center; }
+.sb-badge { margin-left: auto; background: var(--red); color: white; font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 10px; }
+
+.sb-bottom { padding: 16px 14px; border-top: 1px solid rgba(255,255,255,0.08); }
+.sb-user { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 10px; background: rgba(255,255,255,0.05); }
+.sb-avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--red); display: flex; align-items: center; justify-content: center; font-family: 'Cormorant Garamond', serif; font-size: 15px; font-weight: 700; color: white; flex-shrink: 0; }
+.sb-uname { font-size: 13px; font-weight: 600; color: white; }
+.sb-uemail { font-size: 11px; color: rgba(255,255,255,0.35); }
+
+/* MAIN */
+.main { margin-left: var(--sidebar-w); flex: 1; padding: 40px 44px; }
+
+/* TOP BAR */
+.topbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 36px; }
+.topbar-title { font-family: 'Cormorant Garamond', serif; font-size: 34px; font-weight: 700; }
+.topbar-title em { font-style: italic; color: var(--red); }
+.btn-sm { padding: 9px 18px; border-radius: 8px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; border: 1.5px solid var(--border); background: white; color: var(--text); }
+.btn-sm:hover { border-color: var(--black); }
+
+/* STATS */
+.stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-bottom: 32px; }
+.stat-card { background: white; border: 1px solid var(--border); border-radius: 16px; padding: 22px 24px; }
+.stat-icon { font-size: 22px; margin-bottom: 12px; }
+.stat-num { font-family: 'Cormorant Garamond', serif; font-size: 36px; font-weight: 700; line-height: 1; margin-bottom: 4px; }
+.stat-label { font-size: 12px; color: var(--muted); font-weight: 500; }
+
+/* RESTAURANT INFO CARD */
+.info-card { background: white; border: 1px solid var(--border); border-radius: 16px; padding: 24px; margin-bottom: 24px; display: flex; gap: 24px; align-items: flex-start; }
+.info-img { width: 120px; height: 90px; border-radius: 12px; object-fit: cover; flex-shrink: 0; }
+.info-body { flex: 1; }
+.info-name { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 700; margin-bottom: 4px; }
+.info-meta { display: flex; gap: 16px; font-size: 13px; color: var(--muted); margin-top: 8px; flex-wrap: wrap; }
+.info-meta span { display: flex; align-items: center; gap: 4px; }
+
+/* SECTION */
+.section { background: white; border: 1px solid var(--border); border-radius: 16px; margin-bottom: 24px; overflow: hidden; display: none; }
+.section.active { display: block; }
+.section-head { padding: 20px 24px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+.section-head h2 { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 700; }
+
+/* FILTER TABS */
+.filter-tabs { display: flex; gap: 6px; }
+.ftab { padding: 6px 14px; border-radius: 6px; font-size: 12px; font-weight: 600; border: 1.5px solid var(--border); background: white; cursor: pointer; color: var(--muted); font-family: 'Plus Jakarta Sans', sans-serif; transition: all 0.2s; }
+.ftab.active { background: var(--black); color: white; border-color: var(--black); }
+
+/* TABLE */
+.tbl-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; }
+th { padding: 12px 20px; text-align: left; font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); background: var(--bg); border-bottom: 1px solid var(--border); }
+td { padding: 14px 20px; font-size: 13.5px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: #fafaf8; }
+
+/* BADGES */
+.badge { display: inline-block; padding: 3px 10px; border-radius: 6px; font-size: 11px; font-weight: 700; }
+.badge-green { background: var(--green-bg); color: var(--green); border: 1px solid var(--green-border); }
+.badge-red { background: #FEF2F2; color: #DC2626; border: 1px solid #FECACA; }
+.badge-yellow { background: var(--yellow-bg); color: var(--yellow); border: 1px solid #FDE68A; }
+.badge-gray { background: var(--bg); color: var(--muted); border: 1px solid var(--border); }
+
+/* USER CELL */
+.user-cell { display: flex; align-items: center; gap: 10px; }
+.mini-av { width: 30px; height: 30px; border-radius: 50%; background: var(--red); color: white; font-family: 'Cormorant Garamond', serif; font-size: 14px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+
+/* ACTION BTNS */
+.act-btn { padding: 5px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; border: 1.5px solid var(--border); background: white; cursor: pointer; transition: all 0.2s; font-family: 'Plus Jakarta Sans', sans-serif; }
+.act-btn:hover { border-color: var(--black); }
+.act-btn.danger { color: #DC2626; border-color: #FECACA; }
+.act-btn.danger:hover { background: #FEF2F2; }
+
+/* FLASH */
+.flash { padding: 12px 18px; border-radius: 10px; margin-bottom: 20px; font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+.flash-success { background: var(--green-bg); color: var(--green); border: 1px solid var(--green-border); }
+.flash-error { background: #FEF2F2; color: #DC2626; border: 1px solid #FECACA; }
+
+/* EMPTY STATE */
+.empty-state { padding: 60px; text-align: center; color: var(--muted); }
+.empty-state .es-icon { font-size: 40px; margin-bottom: 12px; }
+.empty-state p { font-size: 14px; }
+
+/* TODAY HIGHLIGHT */
+tr.today-row td { background: #FFFBEB; }
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <div class="sb-logo">
+    <a href="/">
+      <svg width="28" height="28" viewBox="242 87 196 236" xmlns="http://www.w3.org/2000/svg">
+        <g transform="translate(340,205)">
+          <path d="M0,-108 C-60,-108 -98,-65 -98,-18 C-98,42 0,118 0,118 C0,118 98,42 98,-18 C98,-65 60,-108 0,-108 Z" fill="#E24B4A"/>
+          <line x1="-20" y1="-65" x2="-20" y2="45" stroke="white" stroke-width="7" stroke-linecap="round"/>
+          <line x1="4" y1="-65" x2="4" y2="-35" stroke="white" stroke-width="6" stroke-linecap="round"/>
+          <line x1="14" y1="-65" x2="14" y2="-35" stroke="white" stroke-width="6" stroke-linecap="round"/>
+          <line x1="24" y1="-65" x2="24" y2="-35" stroke="white" stroke-width="6" stroke-linecap="round"/>
+          <path d="M4,-35 Q14,-14 24,-35" fill="none" stroke="white" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+          <line x1="14" y1="-14" x2="14" y2="45" stroke="white" stroke-width="6" stroke-linecap="round"/>
+        </g>
+      </svg>
+      Joyol<span>.uz</span>
+    </a>
+    <div class="sb-tag">Restaurant Panel</div>
+    <div class="sb-restname">{{ owned_restaurant.name if owned_restaurant else "Admin" }}</div>
+  </div>
+
+  <nav class="sb-nav">
+    <div class="sb-section">Manage</div>
+    <button class="sb-link active" onclick="showTab('reservations', this)">
+      <span class="sb-badge">{{ reservations|length }}</span>
+    </button>
+    <button class="sb-link" onclick="showTab('info', this)">
+    </button>
+
+    <div class="sb-section">Account</div>
+    <a href="/" class="sb-link"></span> View Site</a>
+    <a href="/logout" class="sb-link"></span> Logout</a>
+  </nav>
+
+  <div class="sb-bottom">
+    <div class="sb-user">
+      <div class="sb-avatar">{{ current_user.name[0] }}</div>
+      <div>
+        <div class="sb-uname">{{ current_user.name }}</div>
+        <div class="sb-uemail">Restaurant Owner</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="main">
+
+  <!-- FLASH MESSAGES -->
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+        <div class="flash flash-{{ category }}">
+          {% if category == 'success' %}{% else %}{% endif %} {{ message }}
+        </div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <div class="topbar-title">Restaurant <em>Dashboard</em></div>
+    <a href="/" class="btn-sm">View Site</a>
+  </div>
+
+  <!-- STATS -->
+  {% set confirmed = reservations|selectattr('status','equalto','confirmed')|list %}
+  {% set cancelled = reservations|selectattr('status','equalto','cancelled')|list %}
+  {% set total_guests = reservations|selectattr('status','equalto','confirmed')|sum(attribute='guests') %}
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-icon"></div>
+      <div class="stat-num">{{ reservations|length }}</div>
+      <div class="stat-label">Total Reservations</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon"></div>
+      <div class="stat-num" style="color:var(--green)">{{ confirmed|length }}</div>
+      <div class="stat-label">Confirmed</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon"></div>
+      <div class="stat-num" style="color:#DC2626">{{ cancelled|length }}</div>
+      <div class="stat-label">Cancelled</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon"></div>
+      <div class="stat-num">{{ total_guests }}</div>
+      <div class="stat-label">Total Guests (confirmed)</div>
+    </div>
+  </div>
+
+  <!-- RESERVATIONS TAB -->
+  <div class="section active" id="tab-reservations">
+    <div class="section-head">
+      <h2>All Reservations</h2>
+      <div class="filter-tabs">
+        <button class="ftab active" onclick="filterRes('all', this)">All</button>
+        <button class="ftab" onclick="filterRes('confirmed', this)">Confirmed</button>
+        <button class="ftab" onclick="filterRes('cancelled', this)">Cancelled</button>
+      </div>
+    </div>
+
+    {% if reservations %}
+    <div class="tbl-wrap">
+      <table id="res-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Guest</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Guests</th>
+            <th>Occasion</th>
+            <th>Special Request</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for res in reservations %}
+          <tr data-status="{{ res.status }}">
+            <td style="color:var(--muted);font-size:12px">#{{ res.id }}</td>
+            <td>
+              <div class="user-cell">
+                <div class="mini-av">{{ res.user.name[0] }}</div>
+                <div>
+                  <div style="font-weight:600;font-size:13px">{{ res.user.name }}</div>
+                  <div style="font-size:11px;color:var(--muted)">{{ res.user.phone or res.user.email }}</div>
+                </div>
+              </div>
+            </td>
+            <td style="font-weight:600">{{ res.date.strftime('%b %d, %Y') }}</td>
+            <td>{{ res.time }}</td>
+            <td><span class="badge badge-gray">{{ res.guests }} people</span></td>
+            <td>
+              {% if res.occasion %}
+                <span class="badge badge-yellow">{{ res.occasion }}</span>
+              {% else %}
+                <span style="color:var(--muted);font-size:12px">—</span>
+              {% endif %}
+            </td>
+            <td style="font-size:12px;color:#555;max-width:180px">
+              {{ res.special_request or '—' }}
+            </td>
+            <td>
+              {% if res.status == 'confirmed' %}
+                <span class="badge badge-green">Confirmed</span>
+              {% else %}
+                <span class="badge badge-red">Cancelled</span>
+              {% endif %}
+            </td>
+            <td>
+              {% if res.status == 'confirmed' %}
+              <form method="POST" action="/admin/cancel-reservation/{{ res.id }}" style="display:inline">
+                <button type="submit" class="act-btn danger"
+                  onclick="return confirm('Cancel this reservation?')">Cancel</button>
+              </form>
+              {% else %}
+                <span style="font-size:12px;color:var(--muted)">—</span>
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <div class="empty-state">
+      <div class="es-icon"></div>
+      <p>No reservations yet. They will appear here once customers book a table.</p>
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- INFO TAB -->
+  <div class="section" id="tab-info">
+    <div class="section-head"><h2>Restaurant Info</h2></div>
+    <div class="info-card" style="margin:24px;border-radius:12px">
+      {% if owned_restaurant and owned_restaurant.image_url %}
+      <img src="{{ owned_restaurant.image_url if owned_restaurant }}" class="info-img" alt="restaurant">
+      {% endif %}
+      <div class="info-body">
+        <div class="info-name">{{ owned_restaurant.name if owned_restaurant else "Admin" }}</div>
+        <p style="font-size:13px;color:var(--muted);margin-top:4px;line-height:1.6">{{ owned_restaurant.description if owned_restaurant }}</p>
+        <div class="info-meta">
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function showTab(name, btn) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.sb-link').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  btn.classList.add('active');
+}
+
+function filterRes(status, btn) {
+  document.querySelectorAll('.ftab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('#res-table tbody tr').forEach(row => {
+    if (status === 'all' || row.dataset.status === status) {
+      row.style.display = '';
+    } else {
+      row.style.display = 'none';
+    }
+  });
+}
+</script>
+</body>
+</html>

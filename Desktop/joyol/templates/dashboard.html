@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Joyol.uz — Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --red: #C8272B;
+  --red2: #E03535;
+  --red-dim: rgba(200,39,43,0.1);
+  --red-glow: rgba(200,39,43,0.22);
+  --black: #0D0D0D;
+  --white: #FFFFFF;
+  --bg: #F5F4F1;
+  --card: #FFFFFF;
+  --border: #E8E6E1;
+  --text: #1A1A1A;
+  --muted: #8A8782;
+  --gold: #B8965A;
+  --green: #1A7A4A;
+  --green-bg: #EDFAF3;
+  --amber: #B45309;
+  --amber-bg: #FFFBEB;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; }
+
+/* ── SIDEBAR ── */
+.sidebar {
+  width: 250px; flex-shrink: 0;
+  background: var(--black);
+  min-height: 100vh; position: fixed; left: 0; top: 0; bottom: 0;
+  display: flex; flex-direction: column;
+  padding: 28px 0;
+  z-index: 100;
+  border-right: 1px solid rgba(255,255,255,0.04);
+}
+.sidebar-logo { padding: 0 24px 28px; border-bottom: 1px solid rgba(255,255,255,0.06); margin-bottom: 24px; }
+.logo-text { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: white; text-decoration: none; display: block; }
+.logo-text span { color: var(--red); }
+.logo-sub { font-size: 9px; color: rgba(255,255,255,0.25); letter-spacing: 2.5px; text-transform: uppercase; margin-top: 3px; }
+
+.nav-group { padding: 0 12px; margin-bottom: 4px; }
+.nav-label { font-size: 9px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: rgba(255,255,255,0.2); padding: 0 12px; margin-bottom: 6px; margin-top: 18px; display: block; }
+.nav-item {
+  display: flex; align-items: center; gap: 11px;
+  padding: 10px 14px; border-radius: 10px;
+  text-decoration: none; color: rgba(255,255,255,0.45);
+  font-size: 13.5px; font-weight: 500; letter-spacing: 0.1px;
+  transition: all 0.2s; margin-bottom: 1px;
+}
+.nav-item:hover { background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.85); }
+.nav-item.active { background: var(--red); color: white; box-shadow: 0 4px 18px var(--red-glow); }
+.nav-icon { font-size: 15px; width: 18px; text-align: center; flex-shrink: 0; }
+
+.sidebar-spacer { flex: 1; }
+.sidebar-bottom { padding: 20px 12px 0; border-top: 1px solid rgba(255,255,255,0.06); }
+.user-pill { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 10px; background: rgba(255,255,255,0.05); }
+.user-av { width: 34px; height: 34px; border-radius: 50%; background: var(--red); display: flex; align-items: center; justify-content: center; font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 700; color: white; flex-shrink: 0; }
+.user-name { font-size: 12.5px; font-weight: 600; color: white; line-height: 1.3; }
+.user-role { font-size: 10px; color: rgba(255,255,255,0.3); }
+.logout-link { margin-left: auto; color: rgba(255,255,255,0.25); text-decoration: none; font-size: 12px; transition: color 0.2s; padding: 4px 8px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.1); }
+.logout-link:hover { color: white; border-color: rgba(255,255,255,0.3); }
+
+/* ── MAIN ── */
+.main { margin-left: 250px; flex: 1; min-height: 100vh; display: flex; flex-direction: column; }
+
+/* TOPBAR */
+.topbar { background: white; border-bottom: 1px solid var(--border); padding: 14px 36px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 50; }
+.topbar-title { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; }
+.topbar-sub { font-size: 12px; color: var(--muted); margin-top: 1px; }
+.btn-new-res { padding: 10px 22px; background: var(--red); color: white; border: none; border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; transition: all 0.22s; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 4px 14px var(--red-glow); }
+.btn-new-res:hover { background: #A81E1E; transform: translateY(-1px); }
+
+/* PAGE BODY */
+.page-body { padding: 32px 36px; flex: 1; }
+
+/* BANNER */
+.welcome-banner {
+  background: var(--black); border-radius: 18px; padding: 32px 36px;
+  margin-bottom: 24px; position: relative; overflow: hidden;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.wb-glow1 { position: absolute; top: -80px; right: -80px; width: 320px; height: 320px; border-radius: 50%; background: radial-gradient(circle, rgba(200,39,43,0.14) 0%, transparent 70%); pointer-events: none; }
+.wb-glow2 { position: absolute; bottom: -60px; left: 160px; width: 200px; height: 200px; border-radius: 50%; background: radial-gradient(circle, rgba(184,150,90,0.07) 0%, transparent 70%); pointer-events: none; }
+.wb-content { position: relative; z-index: 1; }
+.wb-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: var(--red); margin-bottom: 10px; }
+.wb-title { font-family: 'Playfair Display', serif; font-size: 30px; font-weight: 700; color: white; line-height: 1.15; margin-bottom: 8px; }
+.wb-title em { font-style: italic; color: rgba(255,255,255,0.3); }
+.wb-desc { font-size: 13.5px; color: rgba(255,255,255,0.38); }
+.wb-decoration { font-size: 72px; opacity: 0.1; position: relative; z-index: 1; user-select: none; }
+
+/* STATS */
+.stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 28px; }
+.stat-box { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 20px 22px; transition: all 0.25s; position: relative; overflow: hidden; cursor: default; }
+.stat-box:hover { transform: translateY(-3px); box-shadow: 0 10px 32px rgba(0,0,0,0.07); border-color: transparent; }
+.stat-accent { position: absolute; bottom: 0; left: 0; right: 0; height: 3px; border-radius: 0 0 14px 14px; }
+.acc-red { background: var(--red); }
+.acc-green { background: var(--green); }
+.acc-amber { background: var(--amber); }
+.acc-gold { background: var(--gold); }
+.stat-emoji { font-size: 22px; margin-bottom: 12px; }
+.stat-val { font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 700; line-height: 1; margin-bottom: 4px; }
+.stat-lbl { font-size: 12px; color: var(--muted); font-weight: 500; }
+
+/* CONTENT GRID */
+.content-grid { display: grid; grid-template-columns: 1fr 300px; gap: 20px; }
+
+/* SECTION CARD */
+.sc { background: var(--card); border: 1px solid var(--border); border-radius: 18px; overflow: hidden; }
+.sc-head { padding: 20px 26px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+.sc-title { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; }
+.sc-badge { background: var(--bg); color: var(--muted); font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 20px; }
+
+/* FILTER */
+.filter-strip { padding: 14px 26px; border-bottom: 1px solid var(--border); display: flex; gap: 7px; }
+.ftab { padding: 6px 15px; border-radius: 20px; border: 1.5px solid var(--border); background: white; font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.2s; color: var(--muted); }
+.ftab.active, .ftab:hover { border-color: var(--red); background: var(--red); color: white; }
+
+/* RES ROWS */
+.res-row {
+  padding: 16px 26px; display: flex; align-items: center; gap: 16px;
+  border-bottom: 1px solid var(--border); transition: background 0.15s;
+  animation: rowIn 0.4s ease backwards;
+}
+.res-row:last-child { border-bottom: none; }
+.res-row:hover { background: #FAFAF8; }
+.res-row:nth-child(1) { animation-delay: 0.05s; }
+.res-row:nth-child(2) { animation-delay: 0.1s; }
+.res-row:nth-child(3) { animation-delay: 0.15s; }
+@keyframes rowIn { from { opacity: 0; transform: translateX(-8px); } to { opacity: 1; transform: translateX(0); } }
+
+.date-chip { background: var(--bg); border-radius: 10px; padding: 8px 12px; text-align: center; min-width: 52px; flex-shrink: 0; }
+.dc-day { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; line-height: 1; }
+.dc-mon { font-size: 9px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); margin-top: 1px; }
+
+.row-info { flex: 1; min-width: 0; }
+.row-name { font-size: 14px; font-weight: 700; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.row-meta { display: flex; gap: 12px; flex-wrap: wrap; }
+.row-meta span { font-size: 12px; color: var(--muted); }
+
+.row-right { display: flex; flex-direction: column; align-items: flex-end; gap: 7px; flex-shrink: 0; }
+.status-pill { font-size: 11px; font-weight: 700; padding: 5px 12px; border-radius: 6px; }
+.s-confirmed { background: var(--green-bg); color: var(--green); }
+.s-pending { background: var(--amber-bg); color: var(--amber); }
+.s-cancelled { background: #FEF2F2; color: #DC2626; }
+.btn-cancel-sm { font-size: 11px; font-weight: 600; color: #DC2626; background: white; border: 1px solid #FECACA; padding: 4px 10px; border-radius: 6px; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+.btn-cancel-sm:hover { background: #FEF2F2; }
+
+/* EMPTY */
+.empty-zone { padding: 52px 26px; text-align: center; }
+.empty-ico { font-size: 44px; margin-bottom: 14px; }
+.empty-h { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+.empty-p { font-size: 13px; color: var(--muted); line-height: 1.7; margin-bottom: 22px; }
+.btn-exp { padding: 11px 26px; background: var(--red); color: white; border: none; border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; text-decoration: none; display: inline-block; box-shadow: 0 4px 14px var(--red-glow); transition: all 0.2s; }
+.btn-exp:hover { background: #A81E1E; transform: translateY(-1px); }
+
+/* RIGHT COLUMN */
+.right-col { display: flex; flex-direction: column; gap: 18px; }
+
+/* PROFILE WIDGET */
+.profile-widget { background: var(--card); border: 1px solid var(--border); border-radius: 18px; padding: 26px 24px; text-align: center; }
+.pw-ring { width: 68px; height: 68px; border-radius: 50%; background: var(--black); display: flex; align-items: center; justify-content: center; font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; color: white; margin: 0 auto 14px; position: relative; box-shadow: 0 0 0 3px white, 0 0 0 5px rgba(200,39,43,0.3); }
+.pw-name { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; margin-bottom: 3px; }
+.pw-email { font-size: 12px; color: var(--muted); margin-bottom: 14px; word-break: break-all; }
+.pw-tags { display: flex; gap: 6px; justify-content: center; margin-bottom: 18px; }
+.pw-tag { font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: 5px; }
+.pwt-blue { background: #EFF6FF; color: #2563EB; }
+.pwt-green { background: var(--green-bg); color: var(--green); }
+.btn-edit-p { width: 100%; padding: 10px; background: var(--bg); color: var(--black); border: 1.5px solid var(--border); border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; text-decoration: none; display: block; transition: all 0.2s; }
+.btn-edit-p:hover { border-color: var(--black); background: white; }
+
+/* ACTIONS WIDGET */
+.actions-widget { background: var(--card); border: 1px solid var(--border); border-radius: 18px; overflow: hidden; }
+.aw-title { padding: 18px 22px 12px; font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 700; border-bottom: 1px solid var(--border); }
+.action-row { display: flex; align-items: center; gap: 12px; padding: 13px 22px; text-decoration: none; color: var(--text); transition: background 0.15s; border-bottom: 1px solid var(--border); }
+.action-row:last-child { border-bottom: none; }
+.action-row:hover { background: var(--bg); }
+.ar-icon { width: 34px; height: 34px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 15px; flex-shrink: 0; }
+.ari-red { background: var(--red-dim); }
+.ari-dark { background: rgba(0,0,0,0.06); }
+.ari-green { background: var(--green-bg); }
+.ar-text { font-size: 13px; font-weight: 600; }
+.ar-sub { font-size: 11px; color: var(--muted); }
+.ar-arr { margin-left: auto; color: var(--muted); font-size: 13px; }
+
+/* MODAL */
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(6px); z-index: 2000; display: none; align-items: center; justify-content: center; }
+.modal-overlay.show { display: flex; }
+.modal { background: white; border-radius: 22px; padding: 40px; max-width: 400px; width: 90%; box-shadow: 0 40px 80px rgba(0,0,0,0.2); animation: mIn 0.3s cubic-bezier(0.34,1.56,0.64,1); }
+@keyframes mIn { from { opacity: 0; transform: scale(0.88); } to { opacity: 1; transform: scale(1); } }
+.m-ico { font-size: 48px; margin-bottom: 14px; }
+.m-title { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 700; margin-bottom: 8px; }
+.m-text { font-size: 13.5px; color: var(--muted); line-height: 1.7; margin-bottom: 26px; }
+.m-btns { display: flex; gap: 10px; }
+.btn-mc { flex: 1; padding: 13px; background: #FEF2F2; color: #DC2626; border: 1.5px solid #FECACA; border-radius: 9px; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+.btn-mc:hover { background: #FEE2E2; border-color: #DC2626; }
+.btn-mk { flex: 1; padding: 13px; background: var(--black); color: white; border: none; border-radius: 9px; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; transition: background 0.2s; }
+.btn-mk:hover { background: #222; }
+
+/* ANIMATIONS */
+@keyframes fadeUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+.stat-box { animation: fadeUp 0.45s ease backwards; }
+.stat-box:nth-child(1) { animation-delay: 0.05s; }
+.stat-box:nth-child(2) { animation-delay: 0.10s; }
+.stat-box:nth-child(3) { animation-delay: 0.15s; }
+.stat-box:nth-child(4) { animation-delay: 0.20s; }
+.welcome-banner { animation: fadeUp 0.4s ease backwards; }
+.sc { animation: fadeUp 0.5s ease 0.15s backwards; }
+.right-col { animation: fadeUp 0.5s ease 0.2s backwards; }
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <a href="/" class="logo-text">Joyol<span>.uz</span></a>
+    <div class="logo-sub">Restaurant Reservations</div>
+  </div>
+
+  <div class="nav-group">
+    <span class="nav-label">Main</span>
+    <a href="/dashboard" class="nav-item active">
+      <span class="nav-icon"></span> Dashboard
+    </a>
+    <a href="/" class="nav-item">
+      <span class="nav-icon"></span> Restaurants
+    </a>
+    <a href="/dashboard" class="nav-item">
+      <span class="nav-icon"></span> Reservations
+    </a>
+  </div>
+  <div class="nav-group">
+    <span class="nav-label">Account</span>
+    <a href="/profile" class="nav-item">
+      <span class="nav-icon"></span> My Profile
+    </a>
+  </div>
+
+  <div class="sidebar-spacer"></div>
+
+  <div class="sidebar-bottom">
+    <div class="user-pill">
+      <div class="user-av">{{ current_user.name[0] }}</div>
+      <div>
+        <div class="user-name">{{ current_user.name }}</div>
+        <div class="user-role">Member</div>
+      </div>
+      <a href="/logout" class="logout-link">Exit</a>
+    </div>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div>
+      <div class="topbar-title">My Dashboard</div>
+      <div class="topbar-sub">Welcome back, {{ current_user.name }}!</div>
+    </div>
+    <a href="/" class="btn-new-res">＋ New Reservation</a>
+  </div>
+
+  <!-- BODY -->
+  <div class="page-body">
+
+    <!-- WELCOME BANNER -->
+    <div class="welcome-banner">
+      <div class="wb-glow1"></div>
+      <div class="wb-glow2"></div>
+      <div class="wb-content">
+        <div class="wb-eyebrow">✦ Your personal space</div>
+        <div class="wb-title">Hello, <em>{{ current_user.name }}!</em><br>Ready to dine tonight?</div>
+        <div class="wb-desc">Manage reservations · Explore restaurants · Enjoy Tashkent</div>
+      </div>
+      <div class="wb-decoration">🍷</div>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats-row">
+      <div class="stat-box">
+        <div class="stat-accent acc-red"></div>
+        <div class="stat-emoji"></div>
+        <div class="stat-val">{{ reservations|length }}</div>
+        <div class="stat-lbl">Total Reservations</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-accent acc-green"></div>
+        <div class="stat-emoji"></div>
+        <div class="stat-val">{{ reservations|selectattr('status','eq','confirmed')|list|length }}</div>
+        <div class="stat-lbl">Confirmed</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-accent acc-amber"></div>
+        <div class="stat-emoji"></div>
+        <div class="stat-val">{{ reservations|selectattr('status','eq','pending')|list|length }}</div>
+        <div class="stat-lbl">Pending</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-accent acc-gold"></div>
+        <div class="stat-emoji"></div>
+        <div class="stat-val">{{ reservations|selectattr('status','eq','cancelled')|list|length }}</div>
+        <div class="stat-lbl">Cancelled</div>
+      </div>
+    </div>
+
+    <!-- CONTENT GRID -->
+    <div class="content-grid">
+
+      <!-- RESERVATIONS LIST -->
+      <div class="sc">
+        <div class="sc-head">
+          <div class="sc-title">My Reservations</div>
+          <span class="sc-badge">{{ reservations|length }} total</span>
+        </div>
+        <div class="filter-strip">
+          <button class="ftab active" onclick="filterRes('all',this)">All</button>
+          <button class="ftab" onclick="filterRes('confirmed',this)"> Confirmed</button>
+          <button class="ftab" onclick="filterRes('pending',this)"> Pending</button>
+          <button class="ftab" onclick="filterRes('cancelled',this)">Cancelled</button>
+        </div>
+        <div class="res-rows" id="res-list">
+          {% if reservations %}
+            {% for res in reservations %}
+            <div class="res-row" data-status="{{ res.status }}">
+              <div class="date-chip">
+                <div class="dc-day">{{ res.date.strftime('%d') }}</div>
+                <div class="dc-mon">{{ res.date.strftime('%b') }}</div>
+              </div>
+              <div class="row-info">
+                <div class="row-name">{{ res.restaurant.name }}</div>
+                <div class="row-meta">
+                  <span>{{ res.time }}</span>
+                  <span>{{ res.guests }} guests</span>
+                  <span>{{ res.restaurant.address }}</span>
+                  {% if res.occasion %}<span> {{ res.occasion }}</span>{% endif %}
+                </div>
+              </div>
+              <div class="row-right">
+                <span class="status-pill s-{{ res.status }}">
+                  {% if res.status == 'confirmed' %}Confirmed
+                  {% elif res.status == 'pending' %}Pending
+                  {% else %} Cancelled{% endif %}
+                </span>
+                {% if res.status != 'cancelled' %}
+                  {% set diff = (now - res.created_at).total_seconds() / 60 %}
+                  {% if diff <= 30 %}
+                    <button class="btn-cancel-sm" onclick="showCancel('{{ res.id }}')">Cancel</button>
+                  {% endif %}
+                {% endif %}
+              </div>
+            </div>
+            {% endfor %}
+          {% else %}
+            <div class="empty-zone">
+              <div class="empty-ico"></div>
+              <div class="empty-h">No reservations yet</div>
+              <div class="empty-p">You haven't made any reservations.<br>Browse restaurants and book your table!</div>
+              <a href="/" class="btn-exp">Explore Restaurants →</a>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- RIGHT COLUMN -->
+      <div class="right-col">
+
+        <!-- PROFILE -->
+        <div class="profile-widget">
+          <div class="pw-ring">{{ current_user.name[0] }}</div>
+          <div class="pw-name">{{ current_user.name }}</div>
+          <div class="pw-email">{{ current_user.email }}</div>
+          <div class="pw-tags">
+            <span class="pw-tag pwt-blue"> Member</span>
+            <span class="pw-tag pwt-green">Verified</span>
+          </div>
+          <a href="/profile" class="btn-edit-p">Edit Profile →</a>
+        </div>
+
+        <!-- QUICK ACTIONS -->
+        <div class="actions-widget">
+          <div class="aw-title">Quick Actions</div>
+          <a href="/" class="action-row">
+            <div class="ar-icon ari-red"></div>
+            <div>
+              <div class="ar-text">Reserve a Table</div>
+              <div class="ar-sub">Browse restaurants</div>
+            </div>
+            <span class="ar-arr">→</span>
+          </a>
+          <a href="/profile" class="action-row">
+            <div class="ar-icon ari-dark"></div>
+            <div>
+              <div class="ar-text">Edit Profile</div>
+              <div class="ar-sub">Update your info</div>
+            </div>
+            <span class="ar-arr">→</span>
+          </a>
+          <a href="/logout" class="action-row">
+            <div class="ar-icon ari-green"></div>
+            <div>
+              <div class="ar-text">Sign Out</div>
+              <div class="ar-sub">Log out of account</div>
+            </div>
+            <span class="ar-arr">→</span>
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CANCEL MODAL -->
+<div class="modal-overlay" id="cancel-modal">
+  <div class="modal">
+    <div class="m-ico"></div>
+    <div class="m-title">Cancel Reservation?</div>
+    <div class="m-text">Are you sure you want to cancel this reservation? Free cancellation is only available within 30 minutes of booking.</div>
+    <div class="m-btns">
+      <button class="btn-mc" id="confirm-cancel-btn">Yes, Cancel</button>
+      <button class="btn-mk" onclick="closeModal()">Keep It</button>
+    </div>
+  </div>
+</div>
+
+<script>
+let cancelId = null;
+function showCancel(id) { cancelId = id; document.getElementById('cancel-modal').classList.add('show'); }
+function closeModal() { document.getElementById('cancel-modal').classList.remove('show'); cancelId = null; }
+document.getElementById('confirm-cancel-btn').addEventListener('click', function() {
+  if (cancelId) window.location.href = '/cancel/' + cancelId;
+});
+document.getElementById('cancel-modal').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+function filterRes(status, btn) {
+  document.querySelectorAll('.ftab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.res-row').forEach(row => {
+    row.style.display = (status === 'all' || row.dataset.status === status) ? 'flex' : 'none';
+  });
+}
+</script>
+</body>
+</html>

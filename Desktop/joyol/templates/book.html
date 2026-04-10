@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Joyol.uz — Book a Table</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --red: #C8272B; --red-dark: #A81E1E; --red-dim: rgba(200,39,43,0.1); --red-glow: rgba(200,39,43,0.22);
+  --black: #0D0D0D; --white: #fff; --bg: #F5F4F1; --card: #fff;
+  --border: #E8E6E1; --text: #1A1A1A; --muted: #8A8782;
+  --green: #1A7A4A; --green-bg: #EDFAF3;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+/* NAVBAR */
+.navbar-wrap { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 1000; width: calc(100% - 64px); max-width: 1200px; }
+nav { background: rgba(13,13,13,0.88); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.09); border-radius: 50px; padding: 11px 14px 11px 24px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 8px 40px rgba(0,0,0,0.28); }
+.nav-logo { font-family: 'Playfair Display', serif; font-size: 21px; font-weight: 700; color: white; text-decoration: none; }
+.nav-logo span { color: var(--red); }
+.nav-links { display: flex; align-items: center; gap: 4px; }
+.nav-link { color: rgba(255,255,255,0.55); font-size: 13.5px; font-weight: 500; text-decoration: none; padding: 8px 16px; border-radius: 30px; transition: all 0.2s; }
+.nav-link:hover { color: white; background: rgba(255,255,255,0.08); }
+.nav-cta { padding: 9px 20px; background: var(--red); color: white; border: none; border-radius: 30px; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; text-decoration: none; transition: all 0.2s; box-shadow: 0 4px 14px var(--red-glow); }
+.nav-cta:hover { background: var(--red-dark); }
+
+/* HERO */
+.book-hero {
+  background: var(--black); min-height: 340px;
+  padding: 130px 64px 60px; position: relative; overflow: hidden;
+  display: flex; align-items: flex-end;
+}
+.bh-img {
+  position: absolute; inset: 0;
+  background: url('{{ restaurant.image_url }}') center/cover no-repeat;
+  opacity: 0.25;
+  animation: slowZoom 20s ease-in-out infinite alternate;
+}
+@keyframes slowZoom { from { transform: scale(1.0); } to { transform: scale(1.08); } }
+.bh-grad { position: absolute; inset: 0; background: linear-gradient(to top, rgba(13,13,13,0.95) 0%, rgba(13,13,13,0.5) 60%, rgba(13,13,13,0.3) 100%); }
+.bh-content { position: relative; z-index: 1; max-width: 1100px; margin: 0 auto; width: 100%; }
+.bh-tag { font-size: 10px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: var(--red); margin-bottom: 12px; }
+.bh-name { font-family: 'Playfair Display', serif; font-size: 48px; font-weight: 700; color: white; line-height: 1.1; margin-bottom: 10px; }
+.bh-meta { display: flex; gap: 20px; flex-wrap: wrap; }
+.bh-meta span { font-size: 13px; color: rgba(255,255,255,0.5); display: flex; align-items: center; gap: 5px; }
+.bh-rating { color: #F4B942 !important; font-weight: 600; }
+
+/* MAIN LAYOUT */
+.book-body { max-width: 1100px; margin: 0 auto; padding: 40px 64px 80px; display: grid; grid-template-columns: 1fr 360px; gap: 28px; align-items: start; }
+
+/* FORM CARD */
+.form-card { background: var(--card); border: 1px solid var(--border); border-radius: 20px; overflow: hidden; }
+.fc-section { padding: 28px 32px; border-bottom: 1px solid var(--border); }
+.fc-section:last-child { border-bottom: none; }
+.section-num { width: 28px; height: 28px; background: var(--red); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; margin-bottom: 14px; }
+.section-title { font-family: 'Playfair Display', serif; font-size: 19px; font-weight: 700; margin-bottom: 4px; }
+.section-sub { font-size: 12px; color: var(--muted); margin-bottom: 20px; }
+
+/* FORM FIELDS */
+.field { margin-bottom: 18px; }
+.field:last-child { margin-bottom: 0; }
+.field label { display: block; font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+.field input, .field select, .field textarea {
+  width: 100%; padding: 13px 16px; border: 1.5px solid var(--border);
+  border-radius: 11px; font-family: 'DM Sans', sans-serif; font-size: 14px;
+  color: var(--text); outline: none; transition: all 0.22s; background: var(--bg);
+}
+.field input:focus, .field select:focus, .field textarea:focus {
+  border-color: var(--red); background: white; box-shadow: 0 0 0 4px rgba(200,39,43,0.06);
+}
+.field textarea { resize: vertical; min-height: 90px; line-height: 1.6; }
+.field select { cursor: pointer; }
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+/* GUEST COUNTER */
+.guest-counter { display: flex; align-items: center; gap: 16px; }
+.gc-btn { width: 38px; height: 38px; border-radius: 50%; border: 1.5px solid var(--border); background: white; font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; font-weight: 300; color: var(--text); }
+.gc-btn:hover { border-color: var(--red); color: var(--red); }
+.gc-num { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; min-width: 32px; text-align: center; }
+.gc-label { font-size: 12px; color: var(--muted); }
+
+/* OCCASION GRID */
+.occasion-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.occ-btn {
+  padding: 12px 8px; border: 1.5px solid var(--border); border-radius: 12px;
+  background: white; cursor: pointer; text-align: center; transition: all 0.22s;
+  font-family: 'DM Sans', sans-serif;
+}
+.occ-btn:hover { border-color: var(--red); background: var(--red-dim); }
+.occ-btn.selected { border-color: var(--red); background: var(--red); color: white; box-shadow: 0 4px 14px var(--red-glow); }
+.occ-emoji { font-size: 22px; margin-bottom: 4px; }
+.occ-name { font-size: 11px; font-weight: 600; }
+
+/* TIME SLOTS */
+.time-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.time-slot {
+  padding: 10px 6px; border: 1.5px solid var(--border); border-radius: 9px;
+  background: white; cursor: pointer; text-align: center;
+  font-size: 13px; font-weight: 600; transition: all 0.2s;
+  font-family: 'DM Sans', sans-serif; color: var(--text);
+}
+.time-slot:hover { border-color: var(--red); color: var(--red); }
+.time-slot.selected { border-color: var(--red); background: var(--red); color: white; box-shadow: 0 4px 12px var(--red-glow); }
+.time-slot.unavailable { opacity: 0.35; cursor: not-allowed; background: var(--bg); }
+
+/* HIDDEN INPUTS */
+.hidden-input { display: none; }
+
+/* SUBMIT */
+.btn-book { width: 100%; padding: 16px; background: var(--red); color: white; border: none; border-radius: 12px; font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 700; cursor: pointer; transition: all 0.25s; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 6px 20px var(--red-glow); letter-spacing: 0.2px; }
+.btn-book:hover { background: var(--red-dark); transform: translateY(-2px); box-shadow: 0 10px 28px var(--red-glow); }
+
+/* SUMMARY CARD */
+.summary-card { background: var(--card); border: 1px solid var(--border); border-radius: 20px; overflow: hidden; position: sticky; top: 100px; }
+.sum-img { height: 180px; background: url('{{ restaurant.image_url }}') center/cover; position: relative; }
+.sum-img-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(13,13,13,0.5) 0%, transparent 60%); }
+.sum-body { padding: 24px; }
+.sum-name { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+.sum-cuisine { font-size: 12px; color: var(--muted); margin-bottom: 16px; }
+.sum-divider { height: 1px; background: var(--border); margin: 16px 0; }
+.sum-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.sum-key { font-size: 12px; color: var(--muted); font-weight: 500; }
+.sum-val { font-size: 13px; font-weight: 700; color: var(--text); }
+.sum-val.empty { color: var(--muted); font-weight: 400; font-style: italic; }
+
+.sum-policy { background: var(--green-bg); border-radius: 10px; padding: 12px 14px; margin-top: 16px; display: flex; gap: 10px; align-items: flex-start; }
+.sp-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+.sp-text { font-size: 11.5px; color: var(--green); line-height: 1.6; font-weight: 500; }
+
+/* FLASH */
+.flash { padding: 14px 18px; border-radius: 12px; margin-bottom: 20px; font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 10px; }
+.flash-error { background: #FEF2F2; color: #DC2626; border: 1px solid #FECACA; }
+.flash-success { background: var(--green-bg); color: var(--green); border: 1px solid #BBF7D0; }
+
+/* ANIMATIONS */
+.form-card { animation: fadeUp 0.4s ease; }
+.summary-card { animation: fadeUp 0.4s ease 0.1s backwards; }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar-wrap">
+  <nav>
+    <a class="nav-logo" href="/">Joyol<span>.uz</span></a>
+    <div class="nav-links">
+      <a href="/" class="nav-link">Home</a>
+      <a href="/restaurants" class="nav-link">Restaurants</a>
+      {% if current_user.is_authenticated %}
+        <a href="/dashboard" class="nav-cta">My Dashboard</a>
+      {% else %}
+        <a href="/auth" class="nav-cta">Sign In</a>
+      {% endif %}
+    </div>
+  </nav>
+</div>
+
+<!-- HERO -->
+<div class="book-hero">
+  <div class="bh-img"></div>
+  <div class="bh-grad"></div>
+  <div class="bh-content">
+    <div class="bh-tag">✦ Table Reservation</div>
+    <div class="bh-name">{{ restaurant.name }}</div>
+    <div class="bh-meta">
+      <span>{{ restaurant.cuisine }}</span>
+      <span>{{ restaurant.address }}</span>
+      <span class="bh-rating">★ {{ restaurant.rating }}</span>
+      <span>{{ restaurant.price_range }}</span>
+    </div>
+  </div>
+</div>
+
+<!-- BODY -->
+<div class="book-body">
+
+  <!-- FORM -->
+  <div>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}{% for cat, msg in messages %}
+        <div class="flash flash-{{ cat }}">{% if cat == 'error' %}{% else %}{% endif %} {{ msg }}</div>
+      {% endfor %}{% endif %}
+    {% endwith %}
+
+    <form method="POST" action="/book/{{ restaurant.id }}" id="book-form">
+
+      <!-- STEP 1: DATE & TIME -->
+      <div class="form-card" style="margin-bottom:20px;">
+        <div class="fc-section">
+          <div class="section-num">1</div>
+          <div class="section-title">Choose Date & Time</div>
+          <div class="section-sub">Select your preferred date and time slot</div>
+
+          <div class="field">
+            <label>Date</label>
+            <input type="date" name="date" id="date-input" required min="{{ today }}" onchange="updateSummary()">
+          </div>
+
+          <div class="field">
+            <label>Available Time Slots</label>
+            <input type="hidden" name="time" id="time-input" required>
+            <div class="time-grid">
+              {% for slot in ['12:00', '12:30', '13:00', '13:30', '14:00', '18:00', '18:30', '19:00', '19:30', '20:00', '20:30', '21:00'] %}
+              <button type="button" class="time-slot" onclick="selectTime('{{ slot }}', this)">{{ slot }}</button>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 2: GUESTS -->
+      <div class="form-card" style="margin-bottom:20px;">
+        <div class="fc-section">
+          <div class="section-num">2</div>
+          <div class="section-title">Number of Guests</div>
+          <div class="section-sub">How many people will be dining?</div>
+          <input type="hidden" name="guests" id="guests-input" value="2">
+          <div class="guest-counter">
+            <button type="button" class="gc-btn" onclick="changeGuests(-1)">−</button>
+            <div>
+              <div class="gc-num" id="guests-display">2</div>
+              <div class="gc-label">guests</div>
+            </div>
+            <button type="button" class="gc-btn" onclick="changeGuests(1)">＋</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 3: OCCASION -->
+      <div class="form-card" style="margin-bottom:20px;">
+        <div class="fc-section">
+          <div class="section-num">3</div>
+          <div class="section-title">Occasion</div>
+          <div class="section-sub">What are you celebrating? (optional)</div>
+          <input type="hidden" name="occasion" id="occasion-input" value="">
+          <div class="occasion-grid">
+            <button type="button" class="occ-btn" onclick="selectOccasion('Birthday', this)">
+              <div class="occ-emoji"></div><div class="occ-name">Birthday</div>
+            </button>
+            <button type="button" class="occ-btn" onclick="selectOccasion('Anniversary', this)">
+              <div class="occ-emoji"></div><div class="occ-name">Anniversary</div>
+            </button>
+            <button type="button" class="occ-btn" onclick="selectOccasion('Date Night', this)">
+              <div class="occ-emoji"></div><div class="occ-name">Date Night</div>
+            </button>
+            <button type="button" class="occ-btn" onclick="selectOccasion('Business Dinner', this)">
+              <div class="occ-emoji"></div><div class="occ-name">Business</div>
+            </button>
+            <button type="button" class="occ-btn" onclick="selectOccasion('Wedding', this)">
+              <div class="occ-emoji"></div><div class="occ-name">Wedding</div>
+            </button>
+            <button type="button" class="occ-btn" onclick="selectOccasion('', this)" id="no-occasion" style="border-style:dashed;">
+              <div class="occ-emoji"></div><div class="occ-name">Just dining</div>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 4: SPECIAL REQUESTS -->
+      <div class="form-card">
+        <div class="fc-section">
+          <div class="section-num">4</div>
+          <div class="section-title">Special Requests</div>
+          <div class="section-sub">Allergies, seating preferences, special needs</div>
+          <div class="field">
+            <textarea name="special_request" placeholder="e.g. Window seat preferred, nut allergy, high chair needed..."></textarea>
+          </div>
+        </div>
+        <div class="fc-section">
+          <button type="submit" class="btn-book">
+            Confirm Reservation
+          </button>
+        </div>
+      </div>
+
+    </form>
+  </div>
+
+  <!-- SUMMARY -->
+  <div class="summary-card">
+    <div class="sum-img" style="background-image: url('{{ restaurant.image_url }}')">
+      <div class="sum-img-overlay"></div>
+    </div>
+    <div class="sum-body">
+      <div class="sum-name">{{ restaurant.name }}</div>
+      <div class="sum-cuisine">{{ restaurant.cuisine }} · {{ restaurant.price_range }}</div>
+      <div class="sum-divider"></div>
+
+      <div class="sum-row">
+        <span class="sum-key">Date</span>
+        <span class="sum-val empty" id="sum-date">Not selected</span>
+      </div>
+      <div class="sum-row">
+        <span class="sum-key">Time</span>
+        <span class="sum-val empty" id="sum-time">Not selected</span>
+      </div>
+      <div class="sum-row">
+        <span class="sum-key"> Guests</span>
+        <span class="sum-val" id="sum-guests">2 guests</span>
+      </div>
+      <div class="sum-row">
+        <span class="sum-key">Occasion</span>
+        <span class="sum-val empty" id="sum-occasion">None</span>
+      </div>
+
+      <div class="sum-policy">
+        <span class="sp-icon"></span>
+        <span class="sp-text">Free cancellation within <strong>30 minutes</strong> of booking. No credit card required.</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+let guests = 2;
+
+function changeGuests(delta) {
+  guests = Math.max(1, Math.min(20, guests + delta));
+  document.getElementById('guests-display').textContent = guests;
+  document.getElementById('guests-input').value = guests;
+  document.getElementById('sum-guests').textContent = guests + ' guest' + (guests !== 1 ? 's' : '');
+}
+
+function selectTime(slot, btn) {
+  document.querySelectorAll('.time-slot').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  document.getElementById('time-input').value = slot;
+  document.getElementById('sum-time').textContent = slot;
+  document.getElementById('sum-time').classList.remove('empty');
+}
+
+function selectOccasion(occ, btn) {
+  document.querySelectorAll('.occ-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  document.getElementById('occasion-input').value = occ;
+  const sumOcc = document.getElementById('sum-occasion');
+  if (occ) { sumOcc.textContent = occ; sumOcc.classList.remove('empty'); }
+  else { sumOcc.textContent = 'None'; sumOcc.classList.add('empty'); }
+}
+
+function updateSummary() {
+  const d = document.getElementById('date-input').value;
+  const sumDate = document.getElementById('sum-date');
+  if (d) {
+    const dt = new Date(d);
+    sumDate.textContent = dt.toLocaleDateString('en-GB', {weekday:'short', day:'numeric', month:'short', year:'numeric'});
+    sumDate.classList.remove('empty');
+  }
+}
+
+// Set min date to today
+const today = new Date().toISOString().split('T')[0];
+document.getElementById('date-input').min = today;
+</script>
+</body>
+</html>

@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Joyol.uz — Kirish</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&family=Figtree:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --red: #C8272B;
+  --red2: #E03535;
+  --red-dim: rgba(200,39,43,0.18);
+  --black: #080808;
+  --white: #FFFFFF;
+  --off: #F7F6F3;
+  --mid: #E2E0DB;
+  --muted: #8A8780;
+  --gold: #C4A96B;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  font-family: 'Figtree', sans-serif;
+  background: var(--black);
+  display: flex; align-items: stretch;
+  min-height: 100vh; overflow: hidden;
+}
+
+/* ── CINEMATIC LEFT PANEL ── */
+.panel-left {
+  flex: 0 0 52%;
+  position: relative; overflow: hidden;
+}
+
+.panel-img {
+  position: absolute; inset: 0;
+  background: url('https://images.unsplash.com/photo-1559339352-11d035aa65de?w=1200&q=90') center/cover no-repeat;
+  transform: scale(1.06);
+  animation: imgBreath 16s ease-in-out infinite alternate;
+}
+@keyframes imgBreath { from { transform: scale(1.06); } to { transform: scale(1.12); } }
+
+.panel-grad {
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(to right, rgba(8,8,8,0.0) 0%, rgba(8,8,8,0.55) 100%),
+    linear-gradient(to top, rgba(8,8,8,0.85) 0%, rgba(8,8,8,0.0) 60%),
+    linear-gradient(135deg, rgba(200,39,43,0.12) 0%, transparent 60%);
+}
+
+/* Decorative grid lines */
+.panel-grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+.panel-content {
+  position: absolute; inset: 0;
+  padding: 48px 52px;
+  display: flex; flex-direction: column; justify-content: space-between;
+}
+
+.p-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 26px; font-weight: 600; color: white;
+  text-decoration: none; letter-spacing: 0.5px;
+  display: flex; align-items: center; gap: 10px;
+}
+.p-logo svg { flex-shrink: 0; filter: drop-shadow(0 2px 8px rgba(200,39,43,0.5)); }
+
+
+.p-bottom {
+  
+ }
+
+.p-quote {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 46px; font-weight: 300; color: white;
+  line-height: 1.08; letter-spacing: -0.5px; margin-bottom: 24px;
+}
+.p-quote em { font-style: italic; color: var(--gold); font-weight: 400; }
+
+.p-tagline {
+  font-size: 13px; color: rgba(255,255,255,0.5);
+  letter-spacing: 0.3px; line-height: 1.7; margin-bottom: 36px;
+  max-width: 360px;
+}
+
+.p-stats {
+  display: flex; gap: 32px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255,255,255,0.1);
+}
+.p-stat-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 30px; font-weight: 600; color: white; line-height: 1;
+}
+.p-stat-num sup { font-size: 16px; color: var(--red); }
+.p-stat-label { font-size: 11px; color: rgba(255,255,255,0.4); margin-top: 4px; letter-spacing: 0.5px; }
+
+/* Floating review card */
+.float-card {
+  position: absolute; top: 50%; right: -20px; transform: translateY(-50%);
+  background: rgba(255,255,255,0.95); backdrop-filter: blur(20px);
+  border-radius: 18px; padding: 18px 20px; width: 220px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+  animation: cardFloat 4s ease-in-out infinite;
+}
+@keyframes cardFloat {
+  0%, 100% { transform: translateY(-50%) translateY(0px); }
+  50% { transform: translateY(-50%) translateY(-10px); }
+}
+
+.fc-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.fc-avatar {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--red); display: flex; align-items: center; justify-content: center;
+  font-family: 'Cormorant Garamond', serif; font-size: 16px; font-weight: 700; color: white;
+}
+.fc-name { font-size: 13px; font-weight: 700; color: var(--black); }
+.fc-time { font-size: 11px; color: var(--muted); }
+.fc-stars { color: #F4B942; font-size: 12px; margin-bottom: 6px; }
+.fc-text { font-size: 12px; color: #555; line-height: 1.5; }
+.fc-tag {
+  display: inline-block; background: var(--red-dim); color: var(--red);
+  font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 4px; margin-top: 8px;
+}
+
+/* ── RIGHT PANEL ── */
+.panel-right {
+  flex: 1;
+  background: var(--off);
+  display: flex; flex-direction: column;
+  padding: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle texture */
+.panel-right::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23000000' fill-opacity='0.02'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  pointer-events: none;
+}
+
+.form-area {
+  flex: 1; display: flex; flex-direction: column;
+  justify-content: center; padding: 52px 56px;
+  position: relative; z-index: 1;
+}
+
+/* MODE INDICATOR */
+.mode-indicator {
+  display: flex; align-items: center; gap: 4px;
+  background: white; border-radius: 50px; padding: 5px;
+  border: 1px solid var(--mid); width: fit-content;
+  margin-bottom: 40px; box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+.mode-btn {
+  padding: 9px 22px; border-radius: 40px; border: none;
+  font-family: 'Figtree', sans-serif; font-size: 13px; font-weight: 600;
+  cursor: pointer; transition: all 0.3s; background: transparent;
+  color: var(--muted);
+}
+.mode-btn.active {
+  background: var(--black); color: white;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+/* FORM HEADER */
+.form-headline {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 38px; font-weight: 600; color: var(--black);
+  line-height: 1.1; margin-bottom: 8px; letter-spacing: -0.5px;
+}
+.form-headline em { font-style: italic; color: var(--red); }
+.form-sub { font-size: 14px; color: var(--muted); margin-bottom: 32px; line-height: 1.6; }
+
+/* FORMS */
+.f { display: none; }
+.f.show { display: block; animation: formSlide 0.4s ease forwards; }
+@keyframes formSlide { from { opacity: 0; transform: translateX(16px); } to { opacity: 1; transform: translateX(0); } }
+
+/* INPUTS */
+.field { margin-bottom: 16px; position: relative; }
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+.field label {
+  display: block; font-size: 10px; font-weight: 700;
+  letter-spacing: 2.5px; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 8px;
+}
+
+.field input {
+  width: 100%; padding: 14px 18px;
+  background: white; border: 1.5px solid var(--mid);
+  border-radius: 12px; outline: none;
+  font-family: 'Figtree', sans-serif; font-size: 14px;
+  color: var(--black); transition: all 0.25s;
+}
+.field input:focus {
+  border-color: var(--red);
+  box-shadow: 0 0 0 4px rgba(200,39,43,0.07);
+}
+.field input::placeholder { color: #C0BDB8; }
+
+/* Input icon */
+.field-icon {
+  position: absolute; right: 16px; bottom: 14px;
+  color: var(--muted); font-size: 16px; pointer-events: none;
+}
+
+/* SUBMIT */
+.btn-go {
+  width: 100%; padding: 15px 24px; margin-top: 8px;
+  background: var(--black); color: white;
+  border: none; border-radius: 12px;
+  font-family: 'Figtree', sans-serif; font-size: 15px; font-weight: 700;
+  cursor: pointer; transition: all 0.3s;
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  letter-spacing: 0.2px; position: relative; overflow: hidden;
+}
+.btn-go::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: var(--red);
+  transform: translateX(-100%);
+  transition: transform 0.4s cubic-bezier(0.4,0,0.2,1);
+}
+.btn-go:hover::before { transform: translateX(0); }
+.btn-go span { position: relative; z-index: 1; }
+.btn-go-arrow { position: relative; z-index: 1; transition: transform 0.3s; }
+.btn-go:hover .btn-go-arrow { transform: translateX(4px); }
+
+/* DIVIDER */
+.or-divider {
+  display: flex; align-items: center; gap: 14px;
+  margin: 20px 0; color: var(--muted); font-size: 12px; font-weight: 500;
+}
+.or-divider::before, .or-divider::after { content: ''; flex: 1; height: 1px; background: var(--mid); }
+
+/* GOOGLE */
+.btn-social {
+  width: 100%; padding: 13px 20px;
+  background: white; border: 1.5px solid var(--mid); border-radius: 12px;
+  font-family: 'Figtree', sans-serif; font-size: 14px; font-weight: 500;
+  cursor: pointer; transition: all 0.2s; display: flex;
+  align-items: center; justify-content: center; gap: 10px; color: var(--black);
+}
+.btn-social:hover { border-color: #ccc; background: #fafafa; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+
+/* SWITCH LINK */
+.switch-link {
+  text-align: center; margin-top: 24px;
+  font-size: 13px; color: var(--muted);
+}
+.switch-link a { color: var(--red); text-decoration: none; font-weight: 700; }
+.switch-link a:hover { text-decoration: underline; }
+
+/* TERMS */
+.terms-note {
+  font-size: 11px; color: var(--muted); margin-top: 14px; text-align: center; line-height: 1.6;
+}
+.terms-note a { color: var(--black); text-decoration: underline; }
+
+/* BACK LINK */
+.back-btn {
+  position: absolute; top: 32px; left: 56px;
+  display: flex; align-items: center; gap: 6px;
+  color: var(--muted); text-decoration: none; font-size: 13px; font-weight: 500;
+  transition: color 0.2s; z-index: 10;
+}
+.back-btn:hover { color: var(--black); }
+.back-btn svg { transition: transform 0.2s; }
+.back-btn:hover svg { transform: translateX(-3px); }
+
+/* Step indicator for register */
+.step-dots {
+  display: flex; gap: 6px; margin-bottom: 28px;
+}
+.step-dot {
+  width: 28px; height: 4px; border-radius: 2px;
+  background: var(--mid); transition: background 0.3s;
+}
+.step-dot.active { background: var(--red); }
+.step-dot.done { background: var(--black); }
+
+/* Flash */
+.flash-msg {
+  padding: 12px 16px; border-radius: 10px; margin-bottom: 16px;
+  font-size: 13px; font-weight: 500; display: flex; align-items: center; gap: 8px;
+}
+.flash-err { background: #FEF2F2; color: #B91C1C; border: 1px solid #FECACA; }
+.flash-ok { background: #F0FDF4; color: #15803D; border: 1px solid #BBF7D0; }
+</style>
+</head>
+<body>
+
+<!-- LEFT PANEL -->
+<div class="panel-left">
+  <div class="panel-img"></div>
+  <div class="panel-grad"></div>
+  <div class="panel-grid"></div>
+  <div class="panel-content">
+    <a href="/" class="p-logo">
+      <svg width="38" height="38" viewBox="242 87 196 236" xmlns="http://www.w3.org/2000/svg">
+        <path d="M340,97 C280,97 242,140 242,187 C242,247 340,323 340,323 C340,323 438,247 438,187 C438,140 400,97 340,97 Z" fill="#E24B4A"/>
+        <line x1="320" y1="140" x2="320" y2="250" stroke="white" stroke-width="7" stroke-linecap="round"/>
+        <line x1="344" y1="140" x2="344" y2="170" stroke="white" stroke-width="6" stroke-linecap="round"/>
+        <line x1="354" y1="140" x2="354" y2="170" stroke="white" stroke-width="6" stroke-linecap="round"/>
+        <line x1="364" y1="140" x2="364" y2="170" stroke="white" stroke-width="6" stroke-linecap="round"/>
+        <path d="M344,170 Q354,191 364,170" fill="none" stroke="white" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+        <line x1="354" y1="191" x2="354" y2="250" stroke="white" stroke-width="6" stroke-linecap="round"/>
+      </svg>
+      Joyol.uz
+    </a>
+    <div class="p-bottom">
+      <div class="p-quote">
+        Tashkent's finest restaurants<br><em>reserve your table</em><br>instantly
+      </div>
+      <div class="p-tagline">
+        No queues, no calls, no stress. Reserve your table in advance and just relax.
+      </div>
+      <div class="p-stats">
+        <div>
+          <div class="p-stat-num">50+<sup>+</sup></div>
+          <div class="p-stat-label">Restorants</div>
+        </div>
+        <div>
+          <div class="p-stat-num">8k<sup>+</sup></div>
+          <div class="p-stat-label">Happy guests</div>
+        </div>
+        <div>
+          <div class="p-stat-num">4.9<sup>★</sup></div>
+          <div class="p-stat-label">High rating</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating review card -->
+  <div class="float-card">
+    <div class="fc-header">
+      <div class="fc-avatar">M</div>
+      <div>
+        <div class="fc-name">Malika R.</div>
+        <div class="fc-time">Today, 20:15</div>
+      </div>
+    </div>
+    <div class="fc-stars">★★★★★</div>
+    <div class="fc-text">"Excellent service! Booking a spot was very easy and convenient."</div>
+  </div>
+</div>
+
+<!-- RIGHT PANEL -->
+<div class="panel-right">
+  <a href="/" class="back-btn">
+    <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    Home
+  </a>
+
+  <div class="form-area">
+
+    <!-- MODE SWITCHER -->
+    <div class="mode-indicator">
+      <button class="mode-btn active" id="tab-login" onclick="showForm('login')">Login</button>
+      <button class="mode-btn" id="tab-register" onclick="showForm('register')">Register</button>
+    </div>
+
+    <!-- LOGIN -->
+    <div class="f show" id="form-login">
+      <div class="form-headline">Welcome back,<br><em>glad to have you!</em></div>
+      <div class="form-sub">Log in to manage your reservations.</div>
+
+      <form method="POST" action="/login">
+        <input type="hidden" name="next" id="login-next" value="">
+        <div class="field">
+          <label>Email</label>
+          <input type="email" name="email" placeholder="your@email.com" required>
+        </div>
+        <div class="field">
+          <label>Password</label>
+          <input type="password" name="password" placeholder="••••••••" required>
+        </div>
+        <button type="submit" class="btn-go">
+          <span>Login</span>
+          <span class="btn-go-arrow">→</span>
+        </button>
+      </form>
+
+      <div class="switch-link">
+        Don't have an account? <a href="#" onclick="showForm('register')">Sign up →</a>
+      </div>
+    </div>
+
+    <!-- REGISTER -->
+    <div class="f" id="form-register">
+      <div class="step-dots">
+        <div class="step-dot active"></div>
+        <div class="step-dot active"></div>
+        <div class="step-dot"></div>
+      </div>
+      <div class="form-headline">Create<br><em> an account</em></div>
+
+      <form method="POST" action="/register">
+        <input type="hidden" name="next" id="register-next" value="">
+        <div class="field-row">
+          <div class="field">
+            <label>Name</label>
+            <input type="text" name="first_name" placeholder="Akbar" required>
+          </div>
+          <div class="field">
+            <label>Surname</label>
+            <input type="text" name="last_name" placeholder="Toshmatov" required>
+          </div>
+        </div>
+        <div class="field">
+          <label>Email</label>
+          <input type="email" name="email" placeholder="your@email.com" required>
+        </div>
+        <div class="field">
+          <label>Phone Number</label>
+          <input type="tel" name="phone" placeholder="+998 90 123 45 67">
+        </div>
+        <div class="field">
+          <label>Password</label>
+          <input type="password" name="password" placeholder="At least 8 characters " required>
+        </div>
+        <button type="submit" class="btn-go">
+          <span>Register</span>
+          <span class="btn-go-arrow">→</span>
+        </button>
+      </form>
+
+      <div class="terms-note">
+        By signing up, you agree to the <a href="#">Terms of Use</a> and <a href="#">Privacy Policy</a>
+      </div>
+
+      <div class="switch-link">
+        Already have account? <a href="#" onclick="showForm('login')">Login →</a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// URL dan ?next= parametrini olib hidden inputlarga qo'yish
+const urlParams = new URLSearchParams(window.location.search);
+const nextPage = urlParams.get('next') || '';
+document.getElementById('login-next').value = nextPage;
+document.getElementById('register-next').value = nextPage;
+
+function showForm(mode) {
+  const isLogin = mode === 'login';
+  document.getElementById('form-login').classList.toggle('show', isLogin);
+  document.getElementById('form-register').classList.toggle('show', !isLogin);
+  document.getElementById('tab-login').classList.toggle('active', isLogin);
+  document.getElementById('tab-register').classList.toggle('active', !isLogin);
+}
+
+document.querySelectorAll('.field input').forEach(input => {
+  input.addEventListener('focus', function() {
+    this.parentElement.style.transform = 'translateY(-1px)';
+    this.parentElement.style.transition = 'transform 0.2s';
+  });
+  input.addEventListener('blur', function() {
+    this.parentElement.style.transform = 'translateY(0)';
+  });
+});
+</script>
+</body>
+</html>

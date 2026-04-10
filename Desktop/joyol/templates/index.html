@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Joyol.uz — Reserve Tashkent's Finest Restaurants</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --red: #D42B2B;
+  --red-dark: #A81E1E;
+  --red-glow: rgba(212,43,43,0.35);
+  --white: #FFFFFF;
+  --black: #0A0A0A;
+  --cream: #FAFAF8;
+  --gray: #F2F2F0;
+  --gray-mid: #DEDEDE;
+  --gray-text: #7A7A7A;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--white); color: var(--black); overflow-x: hidden; }
+
+/* FLOATING NAVBAR */
+.navbar-wrap { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 1000; width: calc(100% - 80px); max-width: 1200px; }
+nav { background: rgba(10,10,10,0.78); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); border-radius: 50px; padding: 12px 16px 12px 24px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 8px 40px rgba(0,0,0,0.4); }
+.nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 700; color: white; text-decoration: none; }
+.nav-logo span { color: var(--red); }
+.nav-links { display: flex; gap: 4px; list-style: none; position: absolute; left: 50%; transform: translateX(-50%); }
+.nav-links a { text-decoration: none; color: rgba(255,255,255,0.7); font-size: 14px; font-weight: 500; padding: 8px 16px; border-radius: 30px; transition: all 0.2s; }
+.nav-links a:hover { color: white; background: rgba(255,255,255,0.1); }
+.nav-right { display: flex; align-items: center; gap: 10px; }
+.nav-login { color: rgba(255,255,255,0.7); font-size: 14px; font-weight: 500; text-decoration: none; padding: 8px 16px; transition: color 0.2s; }
+.nav-login:hover { color: white; }
+.nav-signup { background: var(--red); color: white; padding: 10px 24px; border-radius: 30px; font-size: 14px; font-weight: 600; text-decoration: none; transition: all 0.25s; border: none; cursor: pointer; font-family: 'Plus Jakarta Sans', sans-serif; box-shadow: 0 4px 16px var(--red-glow); }
+.nav-signup:hover { background: var(--red-dark); transform: translateY(-1px); }
+.nav-user { color: white; font-size: 14px; font-weight: 500; display: flex; align-items: center; gap: 10px; }
+.nav-user-avatar { width: 34px; height: 34px; border-radius: 50%; background: var(--red); display: flex; align-items: center; justify-content: center; font-family: 'Cormorant Garamond', serif; font-size: 16px; font-weight: 700; }
+.nav-logout { color: rgba(255,255,255,0.5); font-size: 13px; text-decoration: none; padding: 6px 14px; border: 1px solid rgba(255,255,255,0.15); border-radius: 20px; transition: all 0.2s; }
+.nav-logout:hover { color: white; border-color: rgba(255,255,255,0.4); }
+
+/* HERO */
+.hero { min-height: 100vh; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; overflow: hidden; }
+.hero-bg { position: absolute; inset: 0; background: url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1800&q=85') center/cover no-repeat; filter: brightness(0.28); animation: slowZoom 14s ease-in-out infinite alternate; }
+@keyframes slowZoom { from { transform: scale(1.0); } to { transform: scale(1.08); } }
+.hero-overlay { position: absolute; inset: 0; background: radial-gradient(ellipse at center, rgba(212,43,43,0.06) 0%, rgba(0,0,0,0.55) 100%); }
+.hero-content { position: relative; z-index: 2; padding: 0 40px; max-width: 820px; animation: heroUp 1s ease forwards; }
+@keyframes heroUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+.hero-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.13); color: rgba(255,255,255,0.8); font-size: 11px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; padding: 8px 20px; border-radius: 30px; margin-bottom: 32px; backdrop-filter: blur(10px); }
+.badge-dot { width: 6px; height: 6px; background: var(--red); border-radius: 50%; animation: blink 2s infinite; }
+@keyframes blink { 0%,100% { opacity:1; } 50% { opacity:0.2; } }
+.hero h1 { font-family: 'Cormorant Garamond', serif; font-size: 82px; font-weight: 700; line-height: 1.0; color: white; margin-bottom: 24px; letter-spacing: -1px; }
+.hero h1 em { font-style: italic; color: var(--red); }
+.hero-sub { font-size: 17px; color: rgba(255,255,255,0.58); line-height: 1.8; margin-bottom: 44px; max-width: 500px; margin-left: auto; margin-right: auto; }
+.hero-cta { display: flex; gap: 14px; justify-content: center; margin-bottom: 56px; }
+.btn-main { padding: 16px 40px; background: var(--red); color: white; border: none; border-radius: 50px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 15px; font-weight: 700; cursor: pointer; transition: all 0.25s; box-shadow: 0 8px 30px var(--red-glow); text-decoration: none; display: inline-block; }
+.btn-main:hover { background: var(--red-dark); transform: translateY(-3px); }
+.btn-ghost { padding: 16px 32px; background: rgba(255,255,255,0.07); color: white; border: 1px solid rgba(255,255,255,0.18); border-radius: 50px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 15px; font-weight: 500; cursor: pointer; transition: all 0.25s; text-decoration: none; display: inline-block; }
+.btn-ghost:hover { background: rgba(255,255,255,0.14); }
+.hero-stats { display: flex; gap: 0; justify-content: center; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 20px 40px; backdrop-filter: blur(10px); width: fit-content; margin: 0 auto; }
+.h-stat { padding: 0 36px; text-align: center; }
+.h-stat + .h-stat { border-left: 1px solid rgba(255,255,255,0.1); }
+.h-stat-num { font-family: 'Cormorant Garamond', serif; font-size: 32px; font-weight: 700; color: white; line-height: 1; }
+.h-stat-num span { color: var(--red); }
+.h-stat-label { font-size: 11px; color: rgba(255,255,255,0.4); margin-top: 4px; }
+
+/* BOOKING WIDGET */
+.booking-section { background: var(--black); padding: 0 60px 70px; }
+.booking-card { max-width: 1060px; margin: 0 auto; background: white; border-radius: 18px; transform: translateY(-50px); box-shadow: 0 30px 80px rgba(0,0,0,0.3); display: grid; grid-template-columns: 1fr 1fr 1fr 1fr auto; overflow: hidden; border: 1px solid var(--gray-mid); }
+.bk-f { padding: 20px 24px; border-right: 1px solid var(--gray-mid); transition: background 0.2s; cursor: pointer; }
+.bk-f:hover { background: #fafafa; }
+.bk-label { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--gray-text); margin-bottom: 6px; }
+.bk-f select, .bk-f input { width: 100%; border: none; outline: none; background: transparent; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 14px; font-weight: 600; color: var(--black); cursor: pointer; }
+.btn-find { padding: 0 36px; background: var(--red); color: white; border: none; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 15px; font-weight: 700; cursor: pointer; transition: background 0.2s; display: flex; align-items: center; gap: 8px; white-space: nowrap; }
+.btn-find:hover { background: var(--red-dark); }
+
+/* OCCASIONS */
+.occasions { background: var(--black); padding: 10px 60px 90px; }
+.sec-tag { font-size: 11px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: var(--red); margin-bottom: 12px; }
+.sec-title { font-family: 'Cormorant Garamond', serif; font-size: 50px; font-weight: 700; line-height: 1.1; margin-bottom: 48px; }
+.sec-title.light { color: white; }
+.sec-title.light em { font-style: italic; color: rgba(255,255,255,0.35); }
+.sec-title.dark { color: var(--black); }
+.occ-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; }
+.occ-card { position: relative; border-radius: 18px; overflow: hidden; aspect-ratio: 2/3; cursor: pointer; transition: transform 0.4s; text-decoration: none; display: block; }
+.occ-card:hover { transform: translateY(-10px); }
+.occ-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; filter: brightness(0.55); }
+.occ-card:hover img { transform: scale(1.08); filter: brightness(0.45); }
+.occ-grad { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 60%); z-index: 1; }
+.occ-info { position: absolute; bottom: 0; left: 0; right: 0; padding: 20px 18px; z-index: 2; }
+.occ-emoji { font-size: 28px; display: block; margin-bottom: 8px; }
+.occ-name { color: white; font-size: 15px; font-weight: 700; display: block; margin-bottom: 4px; }
+.occ-count { color: rgba(255,255,255,0.5); font-size: 12px; }
+.occ-card::after { content: ''; position: absolute; inset: 0; border-radius: 18px; border: 2px solid transparent; transition: border-color 0.3s; z-index: 3; pointer-events: none; }
+.occ-card:hover::after { border-color: var(--red); }
+
+/* RESTAURANTS */
+.restaurants { padding: 90px 60px; background: var(--cream); }
+.filter-row { display: flex; gap: 10px; margin-bottom: 40px; flex-wrap: wrap; }
+.f-btn { padding: 9px 22px; border-radius: 30px; border: 1.5px solid var(--gray-mid); background: white; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.2s; }
+.f-btn:hover, .f-btn.active { border-color: var(--red); background: var(--red); color: white; }
+.rest-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.rest-card { background: white; border-radius: 20px; overflow: hidden; border: 1px solid var(--gray-mid); transition: all 0.3s; cursor: pointer; }
+.rest-card:hover { transform: translateY(-8px); box-shadow: 0 24px 60px rgba(0,0,0,0.1); border-color: transparent; }
+.rest-img { position: relative; height: 220px; overflow: hidden; }
+.rest-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s; }
+.rest-card:hover .rest-img img { transform: scale(1.06); }
+.rest-tag { position: absolute; top: 14px; left: 14px; background: var(--red); color: white; font-size: 10px; font-weight: 700; padding: 5px 12px; border-radius: 6px; }
+.rest-body { padding: 20px 22px; }
+.rest-row1 { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+.rest-cuisine { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--red); }
+.rest-rating { font-size: 13px; font-weight: 700; }
+.rest-rating .s { color: #F4B942; }
+.rest-name { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 700; margin-bottom: 6px; }
+.rest-desc { font-size: 13px; color: var(--gray-text); line-height: 1.65; margin-bottom: 16px; }
+.rest-foot { display: flex; justify-content: space-between; align-items: center; padding-top: 14px; border-top: 1px solid var(--gray); }
+.rest-metas { display: flex; gap: 14px; }
+.rest-meta { font-size: 12px; color: var(--gray-text); }
+.btn-res { padding: 9px 20px; background: var(--black); color: white; border: none; border-radius: 8px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; text-decoration: none; }
+.btn-res:hover { background: var(--red); }
+
+/* HOW IT WORKS */
+.how { background: white; padding: 90px 60px; }
+.steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 36px; position: relative; margin-top: 48px; }
+.steps::before { content: ''; position: absolute; top: 35px; left: 9%; right: 9%; height: 1px; background: repeating-linear-gradient(90deg, var(--red) 0, var(--red) 6px, transparent 6px, transparent 14px); opacity: 0.2; }
+.step { text-align: center; }
+.step-n { width: 70px; height: 70px; border-radius: 50%; background: var(--red); color: white; margin: 0 auto 22px; display: flex; align-items: center; justify-content: center; font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 700; position: relative; z-index: 1; box-shadow: 0 8px 28px var(--red-glow); transition: transform 0.3s; }
+.step:hover .step-n { transform: scale(1.1); }
+.step h3 { font-size: 16px; font-weight: 700; margin-bottom: 10px; }
+.step p { font-size: 13px; color: var(--gray-text); line-height: 1.7; }
+
+/* FOOTER */
+footer { background: var(--black); padding: 64px 60px; }
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 48px; }
+.f-logo { font-family: 'Cormorant Garamond', serif; font-size: 30px; font-weight: 700; color: white; margin-bottom: 14px; }
+.f-logo span { color: var(--red); }
+.f-desc { font-size: 14px; color: rgba(255,255,255,0.35); line-height: 1.8; }
+.f-col h4 { color: white; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 18px; }
+.f-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.f-col a { color: rgba(255,255,255,0.35); text-decoration: none; font-size: 14px; transition: color 0.2s; }
+.f-col a:hover { color: white; }
+.footer-bottom { padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.06); display: flex; justify-content: space-between; font-size: 13px; color: rgba(255,255,255,0.2); }
+.footer-bottom a { color: var(--red); text-decoration: none; }
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar-wrap">
+  <nav>
+    <a class="nav-logo" href="/">Joyol<span>.uz</span></a>
+    <ul class="nav-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/restaurants">Restaurants</a></li>
+      <li><a href="/restaurants">Occasions</a></li>
+      <li><a href="/about">About</a></li>
+    </ul>
+    <div class="nav-right">
+      {% if current_user.is_authenticated %}
+        <div class="nav-user">
+          <span>{{ current_user.name }}</span>
+        </div>
+        <a href="/dashboard" class="nav-signup">My Reservations</a>
+        <a href="/logout" class="nav-logout">Logout</a>
+      {% else %}
+        <a href="/auth" class="nav-login">Sign In</a>
+        <a href="/auth" class="nav-signup">Get Started</a>
+      {% endif %}
+    </div>
+  </nav>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-badge"><div class="badge-dot"></div>Tashkent's #1 Reservation Platform</div>
+    <h1>Find Your <em>Perfect</em><br>Table Tonight</h1>
+    <p class="hero-sub">Discover Tashkent's finest restaurants and reserve your table instantly — no phone calls needed.</p>
+    <div class="hero-cta">
+      <a href="/restaurants" class="btn-main">Reserve a Table</a>
+      <a href="#restaurants" class="btn-ghost">Browse Restaurants →</a>
+    </div>
+    <div class="hero-stats">
+      <div class="h-stat"><div class="h-stat-num">120<span>+</span></div><div class="h-stat-label">Restaurants</div></div>
+      <div class="h-stat"><div class="h-stat-num">8<span>k+</span></div><div class="h-stat-label">Reservations</div></div>
+      <div class="h-stat"><div class="h-stat-num">4.9<span>★</span></div><div class="h-stat-label">Rating</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- BOOKING WIDGET -->
+<div class="booking-section">
+  <div class="booking-card">
+    <div class="bk-f"><div class="bk-label">Occasion</div><select><option>Birthday</option><option>Proposal</option><option>Wedding</option><option>Private Dining</option><option>Corporate</option></select></div>
+    <div class="bk-f"><div class="bk-label">Date</div><input type="date"></div>
+    <div class="bk-f"><div class="bk-label">Time</div><select><option>19:00</option><option>19:30</option><option>20:00</option><option>20:30</option></select></div>
+    <div class="bk-f" style="border-right:none"><div class="bk-label">Guests</div><select><option>2 guests</option><option>4 guests</option><option>6 guests</option><option>8+ guests</option></select></div>
+    <a href="/restaurants" class="btn-find">Find a Table</a>
+  </div>
+</div>
+
+<!-- OCCASIONS -->
+<section class="occasions">
+  <div class="sec-tag">Browse by occasion</div>
+  <div class="sec-title light">What are you <em>celebrating?</em></div>
+  <div class="occ-grid">
+    <a href="/restaurants?occasion=Birthday" class="occ-card"><img src="https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?w=400&q=80" alt=""><div class="occ-grad"></div><div class="occ-info"><span class="occ-emoji">🎂</span><span class="occ-name">Birthday</span><span class="occ-count">24 restaurants</span></div></a>
+    <a href="/restaurants?occasion=Wedding" class="occ-card"><img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=400&q=80" alt=""><div class="occ-grad"></div><div class="occ-info"><span class="occ-emoji">💒</span><span class="occ-name">Wedding</span><span class="occ-count">18 restaurants</span></div></a>
+    <a href="/restaurants?occasion=Private+Dining" class="occ-card"><img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400&q=80" alt=""><div class="occ-grad"></div><div class="occ-info"><span class="occ-emoji">🍽️</span><span class="occ-name">Private Dining</span><span class="occ-count">31 restaurants</span></div></a>
+    <a href="/restaurants?occasion=Date+Night" class="occ-card"><img src="https://images.unsplash.com/photo-1551218808-94e220e084d2?w=400&q=80" alt=""><div class="occ-grad"></div><div class="occ-info"><span class="occ-emoji">💍</span><span class="occ-name">Date Night</span><span class="occ-count">15 restaurants</span></div></a>
+    <a href="/restaurants?occasion=Business+Dinner" class="occ-card"><img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=400&q=80" alt=""><div class="occ-grad"></div><div class="occ-info"><span class="occ-emoji">💼</span><span class="occ-name">Corporate</span><span class="occ-count">22 restaurants</span></div></a>
+  </div>
+</section>
+
+<!-- RESTAURANTS -->
+<section class="restaurants" id="restaurants">
+  <div class="sec-tag">Featured restaurants</div>
+  <div class="sec-title dark">Tashkent's <span style="color:var(--red)">Finest</span> Restaurants</div>
+  <div class="filter-row">
+    <button class="f-btn active">All</button>
+    <button class="f-btn">Birthday</button>
+    <button class="f-btn">Wedding</button>
+    <button class="f-btn">Private</button>
+    <button class="f-btn">Corporate</button>
+    <button class="f-btn">Top Rated</button>
+  </div>
+  <div class="rest-grid">
+    <div class="rest-card">
+      <div class="rest-img"><img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&q=80" alt=""><span class="rest-tag">TOP</span></div>
+      <div class="rest-body"><div class="rest-row1"><span class="rest-cuisine">Uzbek · European</span><span class="rest-rating"><span class="s">★</span> 4.8 (312)</span></div><div class="rest-name">Bon Restaurant</div><div class="rest-desc">Modern Uzbek cuisine in a sophisticated setting in the heart of Tashkent.</div><div class="rest-foot"><div class="rest-metas"><span class="rest-meta">Chilonzor</span><span class="rest-meta">2–50</span><span class="rest-meta">$$$$</span></div><a href="/book/1" class="btn-res">Reserve</a></div></div>
+    </div>
+    <div class="rest-card">
+      <div class="rest-img"><img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&q=80" alt=""><span class="rest-tag">POPULAR</span></div>
+      <div class="rest-body"><div class="rest-row1"><span class="rest-cuisine">Traditional Uzbek</span><span class="rest-rating"><span class="s">★</span> 4.9 (541)</span></div><div class="rest-name">Markaziy Osh</div><div class="rest-desc">The most authentic plov experience in Uzbekistan, a true taste of Tashkent.</div><div class="rest-foot"><div class="rest-metas"><span class="rest-meta">Yunusobod</span><span class="rest-meta">4–200</span><span class="rest-meta">$$</span></div><a href="/book/2" class="btn-res">Reserve</a></div></div>
+    </div>
+    <div class="rest-card">
+      <div class="rest-img"><img src="https://images.unsplash.com/photo-1544148103-0773bf10d330?w=600&q=80" alt=""></div>
+      <div class="rest-body"><div class="rest-row1"><span class="rest-cuisine">Asian Fusion</span><span class="rest-rating"><span class="s">★</span> 4.7 (228)</span></div><div class="rest-name">Afsona Restaurant</div><div class="rest-desc">A magical blend of Central Asian and Asian flavours in an enchanting atmosphere.</div><div class="rest-foot"><div class="rest-metas"><span class="rest-meta">Mirzo Ulugbek</span><span class="rest-meta">2–80</span><span class="rest-meta">$$$</span></div><a href="/book/3" class="btn-res">Reserve</a></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how">
+  <div class="sec-tag">Simple process</div>
+  <div class="sec-title dark">How <span style="color:var(--red)">Joyol.uz</span> Works</div>
+  <div class="steps">
+    <div class="step"><div class="step-n">1</div><h3>Choose Your Occasion</h3><p>Browse by birthday, wedding, private dining or corporate event.</p></div>
+    <div class="step"><div class="step-n">2</div><h3>Pick a Restaurant</h3><p>Browse Tashkent's finest and read real reviews from guests.</p></div>
+    <div class="step"><div class="step-n">3</div><h3>Reserve Your Table</h3><p>Select date, time and guests. Confirm in seconds.</p></div>
+    <div class="step"><div class="step-n">4</div><h3>Simply Enjoy!</h3><p>Arrive and find your table ready. No waiting, no stress.</p></div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid" style="grid-template-columns: 2fr 1fr 1fr;">
+    <div><div class="f-logo">Joyol<span>.uz</span></div><div class="f-desc">Discover Tashkent's finest restaurants and reserve your table instantly. No queues, no phone calls.</div></div>
+    <div class="f-col"><h4>Platform</h4><ul><li><a href="/restaurants">Restaurants</a></li><li><a href="/restaurants">Occasions</a></li></ul></div>
+    <div class="f-col"><h4>Company</h4><ul><li><a href="/about">About Us</a></li><li><a href="/about">Team</a></li><li><a href="/about">Contact</a></li></ul></div>
+  </div>
+  <div class="footer-bottom"><span>© 2026 Joyol.uz — All rights reserved</span></div>
+</footer>
+
+<script>
+document.querySelectorAll('.f-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.f-btn').forEach(b => b.classList.remove('active'));
+    this.classList.add('active');
+  });
+});
+window.addEventListener('scroll', () => {
+  const nav = document.querySelector('nav');
+  nav.style.background = window.scrollY > 50 ? 'rgba(10,10,10,0.95)' : 'rgba(10,10,10,0.78)';
+});
+</script>
+
+<script>
+function findTable() {
+  const occasion = document.querySelector('[name="occasion"]').value;
+  const date = document.querySelector('[name="date"]').value;
+  const time = document.querySelector('[name="time"]').value;
+  const guests = document.querySelector('[name="guests"]').value;
+  
+  let url = '/restaurants?';
+  if (occasion) url += 'occasion=' + occasion + '&';
+  if (date) url += 'date=' + date + '&';
+  if (time) url += 'time=' + time + '&';
+  if (guests) url += 'guests=' + guests;
+  
+  window.location.href = url;
+}
+</script>
+</body>
+</html>
