@@ -83,5 +83,5 @@ with app.app_context():
         print(f"      Parol : {password}")
         print()
     db.session.commit()
-    print("ready")
+    print("Ready!")
     print("=========================================\n")
